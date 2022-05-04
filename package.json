@@ -1,6 +1,6 @@
 {
   "name": "generator-twig-component",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scaffold an HTML/Twig component for a Drupal theme w/ Storybook",
   "author": {
     "name": "bryanbuchs",
@@ -19,8 +19,8 @@
     "npm": ">= 4.0.0"
   },
   "dependencies": {
-    "lodash": "^4.17.20",
-    "yeoman-generator": "^4.12.0"
+    "lodash": "^4.17.21",
+    "yeoman-generator": "^5.6.1"
   },
   "repository": "bryanbuchs/generator-twig-component",
   "private": true
