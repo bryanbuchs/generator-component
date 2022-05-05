@@ -8,6 +8,7 @@ module.exports = class extends Generator {
   constructor (args, opts) {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
+    this.option('js')
   }
 
   async prompting () {
@@ -17,6 +18,12 @@ module.exports = class extends Generator {
           type: 'input',
           name: 'tag',
           message: '(component-name)'
+        },
+        {
+          type: 'confirm',
+          name: 'js',
+          message: 'include *.behavior.js file?',
+          default: false
         }
       ])
     } else {
@@ -31,13 +38,11 @@ module.exports = class extends Generator {
       title: _.startCase(this.answers.tag)
     }
 
-    const extensions = [
-      'behavior.js',
-      'less',
-      'library.js',
-      'stories.js',
-      'twig'
-    ]
+    const extensions = ['less', 'library.js', 'stories.js', 'twig']
+
+    if (this.options.js || this.answers.js) {
+      extensions.push('behavior.js')
+    }
 
     extensions.forEach(ext => {
       this.fs.copyTpl(
