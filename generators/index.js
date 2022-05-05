@@ -31,7 +31,13 @@ module.exports = class extends Generator {
       title: _.startCase(this.answers.tag)
     }
 
-    const extensions = ['js', 'less', 'library.js', 'stories.js', 'twig']
+    const extensions = [
+      'behavior.js',
+      'less',
+      'library.js',
+      'stories.js',
+      'twig'
+    ]
 
     extensions.forEach(ext => {
       this.fs.copyTpl(
