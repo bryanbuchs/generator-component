@@ -35,7 +35,8 @@ module.exports = class extends Generator {
     const props = {
       tag: this.answers.tag,
       name: _.pascalCase(this.answers.tag),
-      title: _.startCase(this.answers.tag)
+      title: _.startCase(this.answers.tag),
+      behavior: this.options.js || this.answers.js
     }
 
     const extensions = ['less', 'library.js', 'stories.js', 'twig']
