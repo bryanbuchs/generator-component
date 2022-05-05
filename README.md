@@ -1,7 +1,7 @@
 # generator-twig-component
 
 `npm i -g generator-twig-component`
-`yo generator-twig-component {component-name}`
+`yo twig-component {component-name}`
 
 Running the generator will create a folder of `{component-name}` with a series of boilerplate files:
 
