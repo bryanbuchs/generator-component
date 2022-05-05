@@ -1,7 +1,7 @@
 {
   "name": "generator-twig-component",
-  "version": "1.0.1",
-  "description": "Scaffold an HTML/Twig component for a Drupal theme w/ Storybook",
+  "version": "1.1.0",
+  "description": "Generate an HTML/Twig component folder for a Drupal theme w/ Storybook",
   "author": {
     "name": "bryanbuchs",
     "email": "bryan@bryanbuchs.com"
@@ -22,6 +22,5 @@
     "lodash": "^4.17.21",
     "yeoman-generator": "^5.6.1"
   },
-  "repository": "bryanbuchs/generator-twig-component",
-  "private": true
+  "repository": "bryanbuchs/generator-twig-component"
 }
