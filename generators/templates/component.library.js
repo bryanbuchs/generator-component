@@ -1,2 +1,4 @@
 import './<%= tag %>.less'
-<% if (behavior) { %>import './<%= tag %>.behavior.js'<% } %>
+<% if (behavior) { -%>
+import './<%= tag %>.behavior.js'
+<%_ } _%>
