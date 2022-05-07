@@ -1,10 +1,14 @@
 {
   "name": "generator-twig-component",
   "version": "1.3.1",
-  "description": "Generate an HTML/Twig component folder for a Drupal theme w/ Storybook",
+  "description": "A yeoman generator for Twig/Drupal components",
   "author": {
     "name": "bryanbuchs",
     "email": "bryan@bryanbuchs.com"
+  },
+  "repository": "https://github.com/bryanbuchs/generator-twig-component",
+  "bugs": {
+    "url": "https://github.com/bryanbuchs/generator-twig-component/issues"
   },
   "files": [
     "generators"
@@ -18,12 +22,8 @@
     "drupal",
     "twig"
   ],
-  "engines": {
-    "node": ">=10"
-  },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "change-case": "^4.1.2",
     "yeoman-generator": "^5.6.1"
-  },
-  "repository": "bryanbuchs/generator-twig-component"
+  }
 }
