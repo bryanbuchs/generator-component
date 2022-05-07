@@ -1,22 +1,31 @@
 # generator-twig-component
 
-Install:
+## Requirements
+Requires Yeoman
 
+`npm install -g yo`
+
+## Install
 `npm i -g git@github.com:bryanbuchs/generator-twig-component.git`
 
-Run:
+(@TODO: publish to NPM)
 
+## Run
 `yo twig-component {component-name}` or `yo twig-component` and follow the prompts.
 
-Options:
+### Options
 
-Variants: `yo twig-component {component-name} {count}` to generate N story variants beyond the default export, or enter the count at the prompt
-JS: `yo twig-component {component-name} --js` to include a `*.behavior.js` file in your component, or enter "Y" at the prompt
+#### Variants
+`yo twig-component {component-name} {n}` to generate `n` story variants beyond the default export, or enter the count at the prompt
 
-Running the generator will create a folder of `{component-name}` with a series of boilerplate files:
+#### Drupal Behaviors
+`yo twig-component {component-name} --js` to include a `*.behavior.js` file in your component, or enter "Y" at the prompt
 
-1. `{component-name}.less`
-2. `{component-name}.library.js`
-3. `{component-name}.stories.js`
-4. `{component-name}.twig`
-5. `{component-name}.behavior.js` (optional)
+### Output
+Running the generator will create a directory with a series of boilerplate files:
+
+1. `{component-name}/{component-name}.less`
+2. `{component-name}/{component-name}.library.js`
+3. `{component-name}/{component-name}.stories.js`
+4. `{component-name}/{component-name}.twig`
+5. `{component-name}/{component-name}.behavior.js` (optional)
