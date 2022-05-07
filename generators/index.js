@@ -8,6 +8,7 @@ module.exports = class extends Generator {
   constructor (args, opts) {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
+    this.argument('variants', { type: Number, required: false })
     this.option('js')
   }
 
@@ -18,6 +19,12 @@ module.exports = class extends Generator {
           type: 'input',
           name: 'tag',
           message: '(component-name)'
+        },
+        {
+          type: 'number',
+          name: 'variants',
+          message: 'generate variants for story?',
+          default: 0
         },
         {
           type: 'confirm',
@@ -36,7 +43,10 @@ module.exports = class extends Generator {
       tag: this.answers.tag,
       name: _.pascalCase(this.answers.tag),
       title: _.startCase(this.answers.tag),
-      behavior: this.options.js || this.answers.js
+      behavior: this.answers.js || false,
+      variants: this.answers.variants
+        ? Array.from(Array(this.answers.variants).keys())
+        : []
     }
 
     const extensions = ['less', 'library.js', 'stories.js', 'twig']

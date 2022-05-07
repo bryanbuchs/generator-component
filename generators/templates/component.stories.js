@@ -15,14 +15,15 @@ const Component = ({ label, ...args }) => {
 
 export const Primary = Component.bind({})
 Primary.args = {
-  label: '<%= name %>',
-  attributes: new DrupalAttribute(),
-  title_attributes: new DrupalAttribute(),
-  plugin_id: 'some_plugin_id',
-  title_prefix: '',
-  title_suffix: '',
+  label: '<%= title %>',
   content: 'Lorem ipsum dolor sit amet.',
-  configuration: {
-    provider: 'some_module_name'
-  }
+  attributes: new DrupalAttribute(),
 }
+<% variants.forEach(function(i) { %>
+<% const delta = i + 1 -%>
+export const Secondary<%= delta %> = Component.bind({})
+Secondary<%= delta %>.args = {
+  label: '<%= title %> <%= delta %>',
+  attributes: new DrupalAttribute()
+}
+<% }) %>
