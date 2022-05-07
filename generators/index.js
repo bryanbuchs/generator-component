@@ -1,10 +1,8 @@
 'use strict'
 const Generator = require('yeoman-generator')
-const _ = require('lodash')
+const { pascalCase, capitalCase } = require('change-case')
 
-_.mixin({ pascalCase: _.flow(_.camelCase, _.upperFirst) })
-
-module.exports = class extends Generator {
+module.exports = class GeneratorTwigComponent extends Generator {
   constructor (args, opts) {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
@@ -41,8 +39,8 @@ module.exports = class extends Generator {
   writing () {
     const props = {
       tag: this.answers.tag,
-      name: _.pascalCase(this.answers.tag),
-      title: _.startCase(this.answers.tag),
+      name: pascalCase(this.answers.tag),
+      title: capitalCase(this.answers.tag),
       behavior: this.answers.js || false,
       variants: this.answers.variants
         ? Array.from(Array(this.answers.variants).keys())
