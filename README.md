@@ -1,5 +1,7 @@
 # generator-twig-component
 
+Generates a component directory for use with Storybook + Twig/Drupal
+
 ## Requirements
 Requires Yeoman
 
