@@ -1,9 +1,9 @@
 {
-  "generator-node": {
+  "generator-twig-component": {
     "promptValues": {
       "authorName": "bryanbuchs",
       "authorEmail": "bryan@bryanbuchs.com",
-      "authorUrl": ""
+      "authorUrl": "https://bryanbuchs.com"
     }
   }
 }
