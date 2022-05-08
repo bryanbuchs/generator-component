@@ -1,6 +1,6 @@
-'use strict'
 const Generator = require('yeoman-generator')
-const { pascalCase, capitalCase } = require('change-case')
+const { pascalCase } = require('pascal-case')
+const { titleCase } = require('title-case')
 
 module.exports = class GeneratorTwigComponent extends Generator {
   constructor (args, opts) {
@@ -21,13 +21,13 @@ module.exports = class GeneratorTwigComponent extends Generator {
         {
           type: 'number',
           name: 'variants',
-          message: 'generate variants for story?',
+          message: 'Generate story variants?',
           default: 0
         },
         {
           type: 'confirm',
           name: 'js',
-          message: 'include *.behavior.js file?',
+          message: 'Include *.behavior.js file?',
           default: false
         }
       ])
@@ -37,10 +37,11 @@ module.exports = class GeneratorTwigComponent extends Generator {
   }
 
   writing () {
+    const str = this.answers.tag.replace('-', ' ')
     const props = {
       tag: this.answers.tag,
-      name: pascalCase(this.answers.tag),
-      title: capitalCase(this.answers.tag),
+      name: pascalCase(str),
+      title: titleCase(str),
       behavior: this.answers.js || false,
       variants: this.answers.variants
         ? Array.from(Array(this.answers.variants).keys())
@@ -53,10 +54,12 @@ module.exports = class GeneratorTwigComponent extends Generator {
       extensions.push('behavior.js')
     }
 
+    this.destinationRoot(props.tag)
+
     extensions.forEach(ext => {
       this.fs.copyTpl(
         this.templatePath(`component.${ext}`),
-        this.destinationPath(`${props.tag}/${props.tag}.${ext}`),
+        this.destinationPath(`${props.tag}.${ext}`),
         props
       )
     })
