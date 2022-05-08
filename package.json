@@ -1,6 +1,6 @@
 {
-  "name": "generator-twig-component",
-  "version": "1.3.2",
+  "name": "@bryanbuchs/generator-twig-component",
+  "version": "1.4.0",
   "description": "A yeoman generator for Twig/Drupal components",
   "author": {
     "name": "bryanbuchs",
