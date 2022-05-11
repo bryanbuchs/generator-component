@@ -1,14 +1,14 @@
 {
-  "name": "@bryanbuchs/generator-twig-component",
-  "version": "1.4.0",
+  "name": "generator-drupal-twig-component",
+  "version": "2.0.0",
   "description": "A yeoman generator for Twig/Drupal components",
   "author": {
     "name": "bryanbuchs",
     "email": "bryan@bryanbuchs.com"
   },
-  "repository": "https://github.com/bryanbuchs/generator-twig-component",
+  "repository": "https://github.com/bryanbuchs/generator-drupal-twig-component",
   "bugs": {
-    "url": "https://github.com/bryanbuchs/generator-twig-component/issues"
+    "url": "https://github.com/bryanbuchs/generator-drupal-twig-component/issues"
   },
   "files": [
     "generators"
