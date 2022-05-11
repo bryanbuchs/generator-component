@@ -18,6 +18,13 @@ Primary.args = {
   label: '<%= title %>',
   content: 'Lorem ipsum dolor sit amet.',
   attributes: new DrupalAttribute(),
+  title_attributes: new DrupalAttribute(),
+  plugin_id: 'plugin_id_from_drupal',
+  title_prefix: '',
+  title_suffix: '',
+  configuration: {
+    provider: 'module_from_drupal'
+  }
 }
 <% variants.forEach(function(i) { %>
 <% const delta = i + 1 -%>
