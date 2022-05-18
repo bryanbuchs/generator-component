@@ -21,6 +21,23 @@ module.exports = class GeneratorTwigComponent extends Generator {
           message: 'name of component [component-name]'
         },
         {
+          type: 'list',
+          name: 'group',
+          message: 'Storybook grouping',
+          choices: [
+            '(None)',
+            'Block',
+            'Paragraph',
+            'Menu',
+            'Region',
+            'Page',
+            'Node',
+            'Media',
+            'OTHER'
+          ],
+          default: 0
+        },
+        {
           type: 'input',
           name: 'stories',
           message:
@@ -60,8 +77,12 @@ module.exports = class GeneratorTwigComponent extends Generator {
     const props = {
       tag: this.answers.tag,
       name: pascalCase(str),
-      title: titleCase(str),
+      label: titleCase(str),
       behavior: this.answers.js || false,
+      title:
+        this.answers.group !== '(None)'
+          ? `${this.answers.group}/${titleCase(str)}`
+          : titleCase(str),
       stories: this.answers.stories.split(',').map(name => {
         return {
           name: pascalCase(name.trim()),

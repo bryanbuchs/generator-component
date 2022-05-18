@@ -1,3 +1,3 @@
 # TODO
 
-[ ] Implement <%= title %>
+[ ] Implement <%= label %>

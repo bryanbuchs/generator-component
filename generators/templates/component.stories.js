@@ -15,7 +15,7 @@ const Component = ({ label, ...args }) => {
 
 export const Default = Component.bind({})
 Default.args = {
-  label: '<%= title _%>',
+  label: '<%= label _%>',
   attributes: new DrupalAttribute(),
   title_attributes: new DrupalAttribute(),
   title_prefix: '',
@@ -25,7 +25,7 @@ Default.args = {
 export const <%= obj.name %> = Component.bind({})
 <%= obj.name %>.args = {
   ...Default.args,
-  label: '<%= obj.title _%>',
+  label: '<%= obj.label _%>',
   attributes: new DrupalAttribute(),
   title_attributes: new DrupalAttribute(),
 }
