@@ -8,6 +8,7 @@ module.exports = class GeneratorTwigComponent extends Generator {
     this.argument('tag', { type: String, required: false })
     this.argument('variants', { type: Number, required: false })
     this.option('js')
+    this.option('todo')
   }
 
   async prompting () {
@@ -28,6 +29,12 @@ module.exports = class GeneratorTwigComponent extends Generator {
           type: 'confirm',
           name: 'js',
           message: 'Include *.behavior.js file?',
+          default: false
+        },
+        {
+          type: 'confirm',
+          name: 'todo',
+          message: 'Include TODO.md file?',
           default: false
         }
       ])
@@ -63,5 +70,11 @@ module.exports = class GeneratorTwigComponent extends Generator {
         props
       )
     })
+
+    this.fs.copyTpl(
+      this.templatePath('TODO.md'),
+      this.destinationPath('TODO.md'),
+      props
+    )
   }
 }
