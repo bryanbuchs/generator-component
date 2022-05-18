@@ -59,7 +59,6 @@ module.exports = class GeneratorTwigComponent extends Generator {
     } else {
       this.answers = this.options
       this.answers.stories = ''
-
       this.log('count', this.options.count)
       if (this.options.count !== 0) {
         this.answers.stories = Array.from(Array(this.options.count).keys())
@@ -69,26 +68,32 @@ module.exports = class GeneratorTwigComponent extends Generator {
           .join(',')
         this.log(this.answers.stories)
       }
+      this.log('stories', this.answers.stories)
     }
   }
 
   writing () {
     const str = this.answers.tag.replaceAll('-', ' ')
+
+    this.log('writing', this.answers.stories)
+
     const props = {
       tag: this.answers.tag,
       name: pascalCase(str),
       label: titleCase(str),
       behavior: this.answers.js || false,
       title:
-        this.answers.group !== '(None)'
+        this.answers.group && this.answers.group !== '(None)'
           ? `${this.answers.group}/${titleCase(str)}`
           : titleCase(str),
-      stories: this.answers.stories.split(',').map(name => {
-        return {
-          name: pascalCase(name.trim()),
-          title: titleCase(name.trim())
-        }
-      })
+      stories: this.answers.stories
+        ? this.answers.stories.split(',').map(name => {
+            return {
+              name: pascalCase(name.trim()),
+              title: titleCase(name.trim())
+            }
+          })
+        : []
     }
 
     const extensions = ['less', 'library.js', 'stories.js', 'twig']

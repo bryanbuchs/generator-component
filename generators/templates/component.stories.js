@@ -21,6 +21,7 @@ Default.args = {
   title_prefix: '',
   title_suffix: '',
 }
+
 <% stories.forEach(function(obj) { %>
 export const <%= obj.name %> = Component.bind({})
 <%= obj.name %>.args = {
@@ -29,4 +30,4 @@ export const <%= obj.name %> = Component.bind({})
   attributes: new DrupalAttribute(),
   title_attributes: new DrupalAttribute(),
 }
-<% }) %>
+<% }) -%>
