@@ -44,7 +44,7 @@ module.exports = class GeneratorTwigComponent extends Generator {
   }
 
   writing () {
-    const str = this.answers.tag.replace('-', ' ')
+    const str = this.answers.tag.replaceAll('-', ' ')
     const props = {
       tag: this.answers.tag,
       name: pascalCase(str),
