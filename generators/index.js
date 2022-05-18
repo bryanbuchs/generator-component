@@ -8,8 +8,8 @@ module.exports = class GeneratorTwigComponent extends Generator {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
     this.argument('count', { type: Number, required: false, default: 0 })
-    this.option('js')
-    this.option('todo')
+    this.option('js', { type: Boolean, default: false })
+    this.option('todo', { type: Boolean, default: false })
   }
 
   async prompting () {
@@ -59,23 +59,18 @@ module.exports = class GeneratorTwigComponent extends Generator {
     } else {
       this.answers = this.options
       this.answers.stories = ''
-      this.log('count', this.options.count)
       if (this.options.count !== 0) {
         this.answers.stories = Array.from(Array(this.options.count).keys())
           .map(i => {
             return converter.toWords(i + 1)
           })
           .join(',')
-        this.log(this.answers.stories)
       }
-      this.log('stories', this.answers.stories)
     }
   }
 
   writing () {
     const str = this.answers.tag.replaceAll('-', ' ')
-
-    this.log('writing', this.answers.stories)
 
     const props = {
       tag: this.answers.tag,
@@ -112,10 +107,12 @@ module.exports = class GeneratorTwigComponent extends Generator {
       )
     })
 
-    this.fs.copyTpl(
-      this.templatePath('TODO.md'),
-      this.destinationPath('TODO.md'),
-      props
-    )
+    if (this.answers.todo) {
+      this.fs.copyTpl(
+        this.templatePath('TODO.md'),
+        this.destinationPath('TODO.md'),
+        props
+      )
+    }
   }
 }
