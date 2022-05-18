@@ -1,5 +1,5 @@
 // imports will be compiled to `../dist/components/<%= tag %>/`
-import './<%= tag %>.less'
+import './<%= tag _%>.less'
 <% if (behavior) { -%>
-import './<%= tag %>.behavior.js'
-<%_ } _%>
+import './<%= tag _%>.behavior.js'
+<%_ } -%>

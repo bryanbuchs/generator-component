@@ -1,12 +1,13 @@
 const Generator = require('yeoman-generator')
 const { pascalCase } = require('pascal-case')
 const { titleCase } = require('title-case')
+const converter = require('number-to-words')
 
 module.exports = class GeneratorTwigComponent extends Generator {
   constructor (args, opts) {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
-    this.argument('variants', { type: Number, required: false })
+    this.argument('count', { type: Number, required: false, default: 0 })
     this.option('js')
     this.option('todo')
   }
@@ -17,13 +18,13 @@ module.exports = class GeneratorTwigComponent extends Generator {
         {
           type: 'input',
           name: 'tag',
-          message: '(component-name)'
+          message: 'name of component [component-name]'
         },
         {
-          type: 'number',
-          name: 'variants',
-          message: 'Generate story variants?',
-          default: 0
+          type: 'input',
+          name: 'stories',
+          message:
+            'names of additional stories, comma-separated [First, Second]'
         },
         {
           type: 'confirm',
@@ -40,6 +41,17 @@ module.exports = class GeneratorTwigComponent extends Generator {
       ])
     } else {
       this.answers = this.options
+      this.answers.stories = ''
+
+      this.log('count', this.options.count)
+      if (this.options.count !== 0) {
+        this.answers.stories = Array.from(Array(this.options.count).keys())
+          .map(i => {
+            return converter.toWords(i + 1)
+          })
+          .join(',')
+        this.log(this.answers.stories)
+      }
     }
   }
 
@@ -50,9 +62,12 @@ module.exports = class GeneratorTwigComponent extends Generator {
       name: pascalCase(str),
       title: titleCase(str),
       behavior: this.answers.js || false,
-      variants: this.answers.variants
-        ? Array.from(Array(this.answers.variants).keys())
-        : []
+      stories: this.answers.stories.split(',').map(name => {
+        return {
+          name: pascalCase(name.trim()),
+          title: titleCase(name.trim())
+        }
+      })
     }
 
     const extensions = ['less', 'library.js', 'stories.js', 'twig']

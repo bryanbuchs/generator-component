@@ -1,11 +1,11 @@
 import DrupalAttribute from 'drupal-attribute'
 
 // include this component's CSS, JS, and HTML
-import './<%= tag %>.library.js'
-import Template from './<%= tag %>.twig'
+import './<%= tag _%>.library.js'
+import Template from './<%= tag _%>.twig'
 
 export default {
-  title: '<%= title %>',
+  title: '<%= title _%>',
   parameters: {}
 }
 
@@ -15,18 +15,17 @@ const Component = ({ label, ...args }) => {
 
 export const Default = Component.bind({})
 Default.args = {
-  label: '<%= title %>',
+  label: '<%= title _%>',
   attributes: new DrupalAttribute(),
   title_attributes: new DrupalAttribute(),
   title_prefix: '',
   title_suffix: '',
 }
-<% variants.forEach(function(i) { %>
-<% const delta = i + 1 -%>
-export const Secondary<%= delta %> = Component.bind({})
-Secondary<%= delta %>.args = {
+<% stories.forEach(function(obj) { %>
+export const <%= obj.name %> = Component.bind({})
+<%= obj.name %>.args = {
   ...Default.args,
-  label: '<%= title %><%= delta %>',
+  label: '<%= obj.title _%>',
   attributes: new DrupalAttribute(),
   title_attributes: new DrupalAttribute(),
 }
