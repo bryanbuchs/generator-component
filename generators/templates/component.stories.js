@@ -16,7 +16,6 @@ const Component = ({ label, ...args }) => {
 export const Default = Component.bind({})
 Default.args = {
   label: '<%= title %>',
-  content: 'Lorem ipsum dolor sit amet.',
   attributes: new DrupalAttribute(),
   title_attributes: new DrupalAttribute(),
   title_prefix: '',
@@ -26,7 +25,9 @@ Default.args = {
 <% const delta = i + 1 -%>
 export const Secondary<%= delta %> = Component.bind({})
 Secondary<%= delta %>.args = {
-  label: '<%= title %> <%= delta %>',
-  attributes: new DrupalAttribute()
+  ...Default.args,
+  label: '<%= title %><%= delta %>',
+  attributes: new DrupalAttribute(),
+  title_attributes: new DrupalAttribute(),
 }
 <% }) %>
