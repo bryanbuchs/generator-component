@@ -72,20 +72,23 @@ module.exports = class GeneratorTwigComponent extends Generator {
   writing () {
     const str = this.answers.tag.replaceAll('-', ' ')
 
+    this.answers.group =
+      this.answers.group !== '(None)' ? this.answers.group : null
+
     const props = {
       tag: this.answers.tag,
       name: pascalCase(str),
       label: titleCase(str),
       behavior: this.answers.js || false,
-      title:
-        this.answers.group && this.answers.group !== '(None)'
-          ? `${this.answers.group}/${titleCase(str)}`
-          : titleCase(str),
+      group: this.answers.group ? this.answers.group.toLowerCase() : false,
+      title: this.answers.group
+        ? `${this.answers.group}/${titleCase(str)}`
+        : titleCase(str),
       stories: this.answers.stories
         ? this.answers.stories.split(',').map(name => {
             return {
               name: pascalCase(name.trim()),
-              title: titleCase(name.trim())
+              label: titleCase(name.trim())
             }
           })
         : []

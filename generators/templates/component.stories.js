@@ -18,8 +18,6 @@ Default.args = {
   label: '<%= label _%>',
   attributes: new DrupalAttribute(),
   title_attributes: new DrupalAttribute(),
-  title_prefix: '',
-  title_suffix: '',
 }
 
 <% stories.forEach(function(obj) { %>

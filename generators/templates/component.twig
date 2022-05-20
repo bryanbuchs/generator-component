@@ -1,6 +1,9 @@
 {%
   set classes = [
     '<%= tag _%>',
+<% if (group) { -%>
+    '<%= group _%>',
+<%_ } -%>
   ]
 %}
 
