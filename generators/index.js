@@ -70,6 +70,8 @@ module.exports = class GeneratorTwigComponent extends Generator {
   }
 
   writing () {
+    const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
+
     const str = this.answers.tag.replaceAll('-', ' ')
 
     this.answers.group =
@@ -86,12 +88,13 @@ module.exports = class GeneratorTwigComponent extends Generator {
         : titleCase(str),
       stories: this.answers.stories
         ? this.answers.stories.split(',').map(name => {
-            return {
-              name: pascalCase(name.trim()),
-              label: titleCase(name.trim())
-            }
-          })
-        : []
+          return {
+            name: pascalCase(name.trim()),
+            label: titleCase(name.trim())
+          }
+        })
+        : [],
+      project: pkg ? pkg.name : 'PROJECT'
     }
 
     const extensions = ['less', 'library.js', 'stories.js', 'twig']
@@ -100,7 +103,7 @@ module.exports = class GeneratorTwigComponent extends Generator {
       extensions.push('behavior.js')
     }
 
-    this.destinationRoot(props.tag)
+    this.destinationRoot(`components/${props.tag}`)
 
     extensions.forEach(ext => {
       this.fs.copyTpl(
