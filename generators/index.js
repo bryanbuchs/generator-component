@@ -110,8 +110,6 @@ module.exports = class GeneratorTwigComponent extends Generator {
       project: pkg ? pkg.name : 'PROJECT'
     }
 
-    console.log(this.answers.parameters)
-
     const extensions = ['less', 'library.js', 'stories.js', 'twig']
 
     if (this.options.js || this.answers.js) {
