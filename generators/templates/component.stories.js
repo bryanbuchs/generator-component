@@ -1,3 +1,8 @@
+/**
+* <%= name %>
+* <%= description %>
+*/
+
 import DrupalAttribute from 'drupal-attribute'
 
 // include this component's CSS, JS, and HTML

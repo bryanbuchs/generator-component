@@ -20,6 +20,10 @@ module.exports = class GeneratorTwigComponent extends Generator {
           message: 'name of component [component-name]'
         },
         {
+          type: 'input',
+          name: 'description'
+        },
+        {
           type: 'list',
           name: 'group',
           message: 'Storybook grouping',
@@ -83,7 +87,6 @@ module.exports = class GeneratorTwigComponent extends Generator {
 
   writing () {
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
-
     const str = this.answers.tag.replaceAll('-', ' ')
 
     this.answers.group =
@@ -93,6 +96,7 @@ module.exports = class GeneratorTwigComponent extends Generator {
       tag: this.answers.tag,
       name: pascalCase(str),
       label: titleCase(str),
+      description: this.answers.description,
       behavior: this.answers.js || false,
       group: this.answers.group ? this.answers.group.toLowerCase() : false,
       title: this.answers.group

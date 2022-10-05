@@ -1,6 +1,6 @@
 /**
 * <%= name %>
-* DESCRIPTION
+* <%= description %>
 */
 Drupal.behaviors.<%= name %> = {
   attach: function (context, settings) {
@@ -9,9 +9,4 @@ Drupal.behaviors.<%= name %> = {
       // el.classList.add('js')
     })
   }
-  // detach: function (context, settings) {
-  //   Array.from(context.querySelectorAll('.<%= tag _%>')).forEach(el => {
-  //     el.classList.remove('js')
-  //   })
-  // }
 }
