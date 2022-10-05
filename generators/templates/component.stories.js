@@ -6,7 +6,14 @@ import Template from './<%= tag _%>.twig'
 
 export default {
   title: '<%= title _%>',
-  parameters: {}
+  parameters: {
+<% if (parameters.includes("paddings")) { -%>
+    paddings: { disable: true }
+<% } -%>
+  },
+<% if (parameters.includes("decorator")) { -%>
+  decorators: [story => `<div class="skirball-region-content">${story()}</div>`]
+<% } -%>
 }
 
 const Component = ({ label, ...args }) => {

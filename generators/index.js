@@ -9,7 +9,6 @@ module.exports = class GeneratorTwigComponent extends Generator {
     this.argument('tag', { type: String, required: false })
     this.argument('count', { type: Number, required: false, default: 0 })
     this.option('js', { type: Boolean, default: false })
-    this.option('todo', { type: Boolean, default: false })
   }
 
   async prompting () {
@@ -27,12 +26,14 @@ module.exports = class GeneratorTwigComponent extends Generator {
           choices: [
             '(None)',
             'Block',
-            'Paragraph',
-            'Menu',
-            'Region',
-            'Page',
-            'Node',
+            'Field',
             'Media',
+            'Menu',
+            'Node',
+            'Page',
+            'Paragraph',
+            'Region',
+            'Widget',
             'OTHER'
           ],
           default: 0
@@ -44,15 +45,26 @@ module.exports = class GeneratorTwigComponent extends Generator {
             'names of additional stories, comma-separated [First, Second]'
         },
         {
-          type: 'confirm',
-          name: 'js',
-          message: 'Include *.behavior.js file?',
-          default: false
+          type: 'checkbox',
+          name: 'parameters',
+          message: 'Storybook options',
+          choices: [
+            {
+              name: 'Remove paddings',
+              value: 'paddings',
+              short: 'no-paddings'
+            },
+            {
+              name: 'Add content wrapper',
+              value: 'decorator',
+              short: 'add-wrapper'
+            }
+          ]
         },
         {
           type: 'confirm',
-          name: 'todo',
-          message: 'Include TODO.md file?',
+          name: 'js',
+          message: 'Include *.behavior.js file?',
           default: false
         }
       ])
@@ -94,8 +106,11 @@ module.exports = class GeneratorTwigComponent extends Generator {
           }
         })
         : [],
+      parameters: this.answers.parameters || null,
       project: pkg ? pkg.name : 'PROJECT'
     }
+
+    console.log(this.answers.parameters)
 
     const extensions = ['less', 'library.js', 'stories.js', 'twig']
 
@@ -112,13 +127,5 @@ module.exports = class GeneratorTwigComponent extends Generator {
         props
       )
     })
-
-    if (this.answers.todo) {
-      this.fs.copyTpl(
-        this.templatePath('TODO.md'),
-        this.destinationPath('TODO.md'),
-        props
-      )
-    }
   }
 }

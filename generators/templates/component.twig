@@ -1,7 +1,7 @@
 {{ attach_library('<%= project _%>/<%= tag _%>.library') }}
 
 {%
-  set classes = [
+  set config = [
     '<%= tag _%>',
 <% if (group) { -%>
     '<%= group _%>',
@@ -9,7 +9,7 @@
   ]
 %}
 
-<div{{ attributes.addClass(classes) }}>
+<div{{ attributes.addClass(classes, config) }}>
   {{ title_prefix }}
   {% if label %}
     <h2{{ title_attributes }}>{{ label }}</h2>
