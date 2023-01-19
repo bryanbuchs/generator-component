@@ -12,15 +12,14 @@ import Template from './<%= tag _%>.twig'
 export default {
   title: '<%= title _%>',
   parameters: {
-<% if (parameters.includes("paddings")) { -%>
+<%_ if (parameters.includes("paddings")) { -%>
     paddings: { disable: true }
-<% } -%>
+<%_ } -%>
   },
 <% if (parameters.includes("decorator")) { -%>
   decorators: [story => `<div class="max-width:1200px">${story()}</div>`]
 <% } -%>
 }
-
 
 // import sub-components
 // ---------------------
@@ -36,19 +35,18 @@ export default {
 const Component = ({ label, ...args }) => {
   return Template({ label, ...args })
 }
-
-<% if (behavior) { -%>
+<%_ if (stories.length) { -%>
 <% stories.forEach(function(obj) { %>
+// <%= obj.name %>
 export const <%= obj.name %> = Component.bind()
 <%= obj.name %>.args = {
   label: '<%= obj.label _%>',
   attributes: new DrupalAttribute(),
 }
 <% }) -%>
-<% } else { %>
-// <%= label _%>
-export const Default = Component.bind()
-Default.args = {
+<%_ } else { %>
+export const <%= name %> = Component.bind()
+<%= name %>.args = {
   label: '<%= label _%>',
   attributes: new DrupalAttribute(),
 }
