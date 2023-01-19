@@ -17,7 +17,7 @@ export default {
 <%_ } -%>
   },
 <% if (parameters.includes("decorator")) { -%>
-  decorators: [story => `<div class="max-width:1200px">${story()}</div>`]
+  decorators: [story => `<div style="max-width:1200px">${story()}</div>`]
 <% } -%>
 }
 
