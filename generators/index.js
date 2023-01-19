@@ -26,10 +26,11 @@ module.exports = class GeneratorTwigComponent extends Generator {
         {
           type: 'list',
           name: 'group',
-          message: 'Storybook grouping',
+          message: 'Storybook group [type/component-name]',
           choices: [
             '(None)',
             'Block',
+            'Content',
             'Field',
             'Media',
             'Menu',
@@ -37,6 +38,7 @@ module.exports = class GeneratorTwigComponent extends Generator {
             'Page',
             'Paragraph',
             'Region',
+            'View',
             'Widget',
             'OTHER'
           ],
@@ -46,7 +48,7 @@ module.exports = class GeneratorTwigComponent extends Generator {
           type: 'input',
           name: 'stories',
           message:
-            'names of additional stories, comma-separated [First, Second]'
+            'names of additional stories, comma-separated [FirstOne, SecondOne]'
         },
         {
           type: 'checkbox',
@@ -59,7 +61,7 @@ module.exports = class GeneratorTwigComponent extends Generator {
               short: 'no-paddings'
             },
             {
-              name: 'Add content wrapper',
+              name: 'Add decorator',
               value: 'decorator',
               short: 'add-wrapper'
             }
