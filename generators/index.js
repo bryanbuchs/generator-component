@@ -9,6 +9,9 @@ module.exports = class GeneratorTwigComponent extends Generator {
     this.argument('tag', { type: String, required: false })
     this.argument('count', { type: Number, required: false, default: 0 })
     this.option('js', { type: Boolean, default: false })
+    this.option('padding', { type: Boolean, default: false })
+    this.option('decorator', { type: Boolean, default: false })
+    this.option('group', { type: String, required: false, default: '(None)' })
   }
 
   async prompting () {
@@ -76,7 +79,14 @@ module.exports = class GeneratorTwigComponent extends Generator {
       ])
     } else {
       this.answers = this.options
-      this.answers.stories = ''
+      this.answers.stories = null
+      this.answers.parameters = []
+      if (this.options.padding) {
+        this.answers.parameters.push('paddings')
+      }
+      if (this.options.decorator) {
+        this.answers.parameters.push('decorator')
+      }
       if (this.options.count !== 0) {
         this.answers.stories = Array.from(Array(this.options.count).keys())
           .map(i => {
