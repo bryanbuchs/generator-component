@@ -38,16 +38,22 @@ const Component = ({ label, ...args }) => {
 <%_ if (stories.length) { -%>
 <% stories.forEach(function(obj) { %>
 // <%= obj.name %>
-export const <%= obj.name %> = Component.bind()
-<%= obj.name %>.args = {
-  label: '<%= obj.label _%>',
-  attributes: new DrupalAttribute(),
+export const <%= obj.name %> = {
+  name: '<%= obj.label _%>',
+  render: Component,
+  args: {
+    label: '<%= obj.label _%>',
+    attributes: new DrupalAttribute()
+  }
 }
 <% }) -%>
 <%_ } else { %>
-export const <%= name %> = Component.bind()
-<%= name %>.args = {
-  label: '<%= label _%>',
-  attributes: new DrupalAttribute(),
+export const <%= name %> = {
+  name: '<%= title _%>',
+  render: Component,
+  args: {
+    label: '<%= label _%>',
+    attributes: new DrupalAttribute()
+  }
 }
 <%_ } -%>
