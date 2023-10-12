@@ -1,4 +1,4 @@
-# generator-twig-component
+# generator-drupal-twig-component
 
 Generates a component directory for use with Storybook + Twig/Drupal
 
@@ -8,20 +8,17 @@ Requires Yeoman
 `npm install -g yo`
 
 ## Install
-`npm i -g git@github.com:bryanbuchs/generator-twig-component.git`
+`npm i -g git@github.com:bryanbuchs/generator-drupal-twig-component.git`
 
 (@TODO: publish to NPM)
 
 ## Run
-`yo twig-component {component-name}` or `yo twig-component` and follow the prompts.
+`yo drupal-twig-component {component-name}` for defaults or `yo drupal-twig-component` and follow the prompts.
 
 ### Options
 
-#### Variants
-`yo twig-component {component-name} {n}` to generate `n` story variants beyond the default export, or enter the count at the prompt
-
 #### Drupal Behaviors
-`yo twig-component {component-name} --js` to include a `*.behavior.js` file in your component, or enter "Y" at the prompt
+`yo drupal-twig-component {component-name} --js` to include a `*.behavior.js` file in your component, or enter "Y" at the prompt
 
 ### Output
 Running the generator will create a directory with a series of boilerplate files:
