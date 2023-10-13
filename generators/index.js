@@ -1,7 +1,6 @@
 import Generator from 'yeoman-generator'
-import { pascalCase } from 'pascal-case'
-import { titleCase } from 'title-case'
 import converter from 'number-to-words'
+import { pascalCase, capitalCase } from 'change-case'
 
 export default class GeneratorTwigComponent extends Generator {
   constructor (args, opts) {
@@ -107,18 +106,18 @@ export default class GeneratorTwigComponent extends Generator {
     const props = {
       tag: this.answers.tag,
       name: pascalCase(str),
-      label: titleCase(str),
+      label: capitalCase(str),
       description: this.answers.description,
       behavior: this.answers.js || false,
       group: this.answers.group ? this.answers.group.toLowerCase() : false,
       title: this.answers.group
-        ? `${this.answers.group}/${titleCase(str)}`
-        : titleCase(str),
+        ? `${this.answers.group}/${capitalCase(str)}`
+        : capitalCase(str),
       stories: this.answers.stories
         ? this.answers.stories.split(',').map(name => {
             return {
               name: pascalCase(name.trim()),
-              label: titleCase(name.trim())
+              label: capitalCase(name.trim())
             }
           })
         : [],
