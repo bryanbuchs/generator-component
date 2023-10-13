@@ -5,7 +5,6 @@
 
 import DrupalAttribute from 'drupal-attribute'
 
-// include this component's CSS, JS, and HTML
 import './<%= tag _%>.library.js'
 import Template from './<%= tag _%>.twig'
 
@@ -23,7 +22,6 @@ export default {
 
 // import sub-components
 // ---------------------
-
 // import SubTemplate from '../component/component.twig'
 // import { Default as SubStory } from '../component/component.stories.js'
 // const SubComponent = () => {
@@ -49,7 +47,6 @@ export const <%= obj.name %> = {
 <% }) -%>
 <%_ } else { %>
 export const <%= name %> = {
-  name: '<%= title _%>',
   render: Component,
   args: {
     label: '<%= label _%>',
