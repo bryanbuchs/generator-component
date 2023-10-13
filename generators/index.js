@@ -1,9 +1,9 @@
-const Generator = require('yeoman-generator')
-const { pascalCase } = require('pascal-case')
-const { titleCase } = require('title-case')
-const converter = require('number-to-words')
+import Generator from 'yeoman-generator'
+import { pascalCase } from 'pascal-case'
+import { titleCase } from 'title-case'
+import converter from 'number-to-words'
 
-module.exports = class GeneratorTwigComponent extends Generator {
+export default class GeneratorTwigComponent extends Generator {
   constructor (args, opts) {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
@@ -116,11 +116,11 @@ module.exports = class GeneratorTwigComponent extends Generator {
         : titleCase(str),
       stories: this.answers.stories
         ? this.answers.stories.split(',').map(name => {
-          return {
-            name: pascalCase(name.trim()),
-            label: titleCase(name.trim())
-          }
-        })
+            return {
+              name: pascalCase(name.trim()),
+              label: titleCase(name.trim())
+            }
+          })
         : [],
       parameters: this.answers.parameters || null,
       project: pkg ? pkg.name : 'PROJECT'

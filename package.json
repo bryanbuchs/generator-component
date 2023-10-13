@@ -1,7 +1,8 @@
 {
   "name": "generator-component",
   "version": "4.1.1",
-  "description": "A yeoman generator for Twig/Drupal components",
+  "description": "A yeoman generator for Twig/Drupal storybook components",
+  "type": "module",
   "author": {
     "name": "bryanbuchs",
     "email": "bryan@bryanbuchs.com"
@@ -18,8 +19,9 @@
   ],
   "dependencies": {
     "number-to-words": "^1.2.4",
-    "pascal-case": "^3.1.2",
+    "pascal-case": "^4.0.0",
     "title-case": "^4.1.0",
-    "yeoman-generator": "^5.9.0"
+    "yeoman-environment": "^3.19.3",
+    "yeoman-generator": "^6.0.1"
   }
 }
