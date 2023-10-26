@@ -5,8 +5,8 @@
 
 import DrupalAttribute from 'drupal-attribute'
 
+import Component from './<%= tag _%>.twig'
 import './<%= tag _%>.library.js'
-import Template from './<%= tag _%>.twig'
 
 export default {
   title: '<%= title _%>',
@@ -20,19 +20,6 @@ export default {
 <% } -%>
 }
 
-// import sub-components
-// ---------------------
-// import SubTemplate from '../component/component.twig'
-// import { Default as SubStory } from '../component/component.stories.js'
-// const SubComponent = () => {
-//   return SubTemplate({
-//     ...SubStory.args
-//   })
-// }
-
-const Component = ({ label, ...args }) => {
-  return Template({ label, ...args })
-}
 <%_ if (stories.length) { -%>
 <% stories.forEach(function(obj) { %>
 // <%= obj.name %>
