@@ -1,7 +1,7 @@
 /**
-* <%= name %>
-* <%= description %>
-*/
+ * <%= name %>
+ * <%= description %>
+ */
 
 import DrupalAttribute from 'drupal-attribute'
 
@@ -19,7 +19,6 @@ export default {
   decorators: [story => `<div style="max-width:1200px">${story()}</div>`]
 <% } -%>
 }
-
 <%_ if (stories.length) { -%>
 <% stories.forEach(function(obj) { %>
 // <%= obj.name %>

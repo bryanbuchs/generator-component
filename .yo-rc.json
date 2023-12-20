@@ -1,5 +1,5 @@
 {
-  "generator-twig-component": {
+  "generator-component": {
     "promptValues": {
       "authorName": "bryanbuchs",
       "authorEmail": "bryan@bryanbuchs.com",

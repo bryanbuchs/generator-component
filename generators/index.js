@@ -1,16 +1,16 @@
 import Generator from 'yeoman-generator'
 import converter from 'number-to-words'
-import { pascalCase, capitalCase } from 'change-case'
+import { capitalCase, kebabCase, pascalCase } from 'change-case'
 
 export default class GeneratorTwigComponent extends Generator {
   constructor (args, opts) {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
-    this.argument('count', { type: Number, required: false, default: 0 })
-    this.option('js', { type: Boolean, default: false })
-    this.option('padding', { type: Boolean, default: false })
-    this.option('decorator', { type: Boolean, default: false })
-    this.option('group', { type: String, required: false, default: '(None)' })
+    this.argument('count', { type: Number, required: false, default: 0 }) // the number of additional stories to generate
+    this.option('js', { type: Boolean, default: false }) // build a behavior.js file
+    this.option('padding', { type: Boolean, default: false }) // set storybook preview paddings on/off
+    this.option('decorator', { type: Boolean, default: false }) // wrap the story in a container
+    this.option('group', { type: String, required: false, default: '(None)' }) // set a default storybook group
   }
 
   async prompting () {
@@ -19,23 +19,21 @@ export default class GeneratorTwigComponent extends Generator {
         {
           type: 'input',
           name: 'tag',
-          message: 'name of component [component-name]'
-        },
-        {
-          type: 'input',
-          name: 'description'
+          message: 'Name of component ["image", "cards"]'
         },
         {
           type: 'list',
           name: 'group',
-          message: 'Storybook group [type/component-name]',
+          message: 'Component type',
           choices: [
             '(None)',
             'Block',
             'Content',
+            'Entity',
             'Field',
+            'Global',
             'Media',
-            'Menu',
+            'Nav',
             'Node',
             'Page',
             'Paragraph',
@@ -48,9 +46,13 @@ export default class GeneratorTwigComponent extends Generator {
         },
         {
           type: 'input',
+          name: 'description'
+        },
+        {
+          type: 'input',
           name: 'stories',
           message:
-            'names of additional stories, comma-separated [FirstOne, SecondOne]'
+            'names of additional stories, comma-separated [Default, Secondary]'
         },
         {
           type: 'checkbox',
@@ -98,28 +100,37 @@ export default class GeneratorTwigComponent extends Generator {
 
   writing () {
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
+
+    // => "List Items", "Button"m "Page Title"
     const str = this.answers.tag.replaceAll('-', ' ')
 
-    this.answers.group =
-      this.answers.group !== '(None)' ? this.answers.group : null
+    const group = this.answers.group !== '(None)' ? this.answers.group : null
+
+    // => "paragraph-list-items", "button", "page-title"
+    const tag = group
+      ? `${group.toLowerCase()}-${kebabCase(this.answers.tag)}`
+      : kebabCase(this.answers.tag)
+
+    // => "ParagraphListItems", "Button", "PageTitle"
+    const name = group ? pascalCase(group) + pascalCase(str) : pascalCase(str)
 
     const props = {
-      tag: this.answers.tag,
-      name: pascalCase(str),
+      tag: tag,
+      name: name,
       label: capitalCase(str),
       description: this.answers.description,
       behavior: this.answers.js || false,
-      group: this.answers.group ? this.answers.group.toLowerCase() : false,
+      group: group ? group.toLowerCase() : false,
       title: this.answers.group
         ? `${this.answers.group}/${capitalCase(str)}`
         : capitalCase(str),
       stories: this.answers.stories
         ? this.answers.stories.split(',').map(name => {
-            return {
-              name: pascalCase(name.trim()),
-              label: capitalCase(name.trim())
-            }
-          })
+          return {
+            name: pascalCase(name.trim()),
+            label: capitalCase(name.trim())
+          }
+        })
         : [],
       parameters: this.answers.parameters || null,
       project: pkg ? pkg.name : 'PROJECT'
