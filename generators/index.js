@@ -1,16 +1,22 @@
 import Generator from 'yeoman-generator'
 import { capitalCase, kebabCase, pascalCase, sentenceCase } from 'change-case'
 
+import Enquirer from 'enquirer'
+const { prompt, List } = Enquirer
+
+// const { List } = require('enquirer');
+
 export default class GeneratorTwigComponent extends Generator {
   async prompting () {
-    this.answers = await this.prompt([
+    this.answers = await prompt([
       {
         type: 'input',
         name: 'tag',
         message: 'Name of component ["card"]'
       },
       {
-        type: 'list',
+        type: 'autocomplete',
+        limit: 1,
         name: 'group',
         message: 'Component type',
         choices: [
@@ -22,13 +28,12 @@ export default class GeneratorTwigComponent extends Generator {
           'Media',
           'Nav',
           'Node',
-          'OTHER',
           'Page',
           'Paragraph',
           'Region',
           'View',
           'Widget',
-          '(None)'
+          ''
         ],
         default: 0
       },
@@ -43,24 +48,19 @@ export default class GeneratorTwigComponent extends Generator {
           'names of additional stories, comma-separated ["Default, Secondary"]'
       },
       {
-        type: 'checkbox',
-        name: 'parameters',
-        message: 'Storybook options',
-        choices: [
-          {
-            name: 'Remove paddings',
-            value: 'paddings',
-            short: 'no-paddings'
-          },
-          {
-            name: 'Add decorator',
-            value: 'decorator',
-            short: 'add-wrapper'
-          }
-        ]
+        type: 'toggle',
+        name: 'paddings',
+        message: 'Add Paddings?',
+        default: false
       },
       {
-        type: 'confirm',
+        type: 'toggle',
+        name: 'decorator',
+        message: 'Add Decorator?',
+        default: false
+      },
+      {
+        type: 'toggle',
         name: 'js',
         message: 'Include *.behavior.js file?',
         default: false
@@ -102,8 +102,8 @@ export default class GeneratorTwigComponent extends Generator {
             }
           })
         : [],
-      decorator: this.answers.parameters.includes('decorator') ? null : '// ',
-      paddings: this.answers.parameters.includes('paddings') ? null : '// ',
+      decorator: this.answers.decorator ? null : '// ',
+      paddings: this.answers.paddings ? null : '// ',
       project: pkg ? pkg.name : 'PROJECT_NAME'
     }
 
