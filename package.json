@@ -7,6 +7,10 @@
     "name": "bryanbuchs",
     "email": "bryan@bryanbuchs.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bryanbuchs/generator-component.git"
+  },
   "files": [
     "generators"
   ],
