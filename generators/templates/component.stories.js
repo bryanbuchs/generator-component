@@ -30,6 +30,7 @@ export const <%= obj.name %> = {
 <%_ } else { %>
 export const <%= name %> = {
   render: Component,
+  name: '<%= label %>',
   args: {
     label: '<%= label _%>',
     attributes: new DrupalAttribute()
