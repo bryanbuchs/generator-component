@@ -43,6 +43,12 @@ export default class GeneratorTwigComponent extends Generator {
       },
       {
         type: 'input',
+        name: 'args',
+        message:
+          'names of component argument keys, comma-separated ["name, rows, theme"]'
+      },
+      {
+        type: 'input',
         name: 'stories',
         message:
           'names of additional stories, comma-separated ["Default, Secondary"]'
@@ -84,6 +90,10 @@ export default class GeneratorTwigComponent extends Generator {
     // => "ParagraphListItems", "Button", "PageTitle"
     const name = group ? pascalCase(group) + pascalCase(str) : pascalCase(str)
 
+    const args = this.answers.args ? [...this.answers.args.split(',')].map(arg=>arg.trim()) : []
+
+console.log(args);
+
     const props = {
       tag: tag,
       name: name,
@@ -94,6 +104,7 @@ export default class GeneratorTwigComponent extends Generator {
       title: this.answers.group
         ? `${this.answers.group}/${capitalCase(str)}`
         : capitalCase(str),
+      args: args,
       stories: this.answers.stories
         ? this.answers.stories.split(',').map(name => {
             return {
@@ -101,7 +112,10 @@ export default class GeneratorTwigComponent extends Generator {
               label: capitalCase(name.trim())
             }
           })
-        : [],
+        : [{
+          name: name.trim(),
+          label: str.trim()
+        }],
       decorator: this.answers.decorator ? null : '// ',
       paddings: this.answers.paddings ? null : '// ',
       project: pkg ? pkg.name : 'PROJECT_NAME'

@@ -15,6 +15,9 @@
 
   {% block content %}
     <pre>@TODO</pre>
+<% args.forEach(function(arg) { -%>
+    <pre>{{ <%= arg %> }}</pre>
+<% }) -%>
   {% endblock %}
 
 </div>
