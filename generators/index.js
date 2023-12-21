@@ -1,9 +1,9 @@
 import Generator from 'yeoman-generator'
 import converter from 'number-to-words'
-import { capitalCase, kebabCase, pascalCase } from 'change-case'
+import { capitalCase, kebabCase, pascalCase, sentenceCase } from 'change-case'
 
 export default class GeneratorTwigComponent extends Generator {
-  constructor (args, opts) {
+  constructor(args, opts) {
     super(args, opts)
     this.argument('tag', { type: String, required: false })
     this.argument('count', { type: Number, required: false, default: 0 }) // the number of additional stories to generate
@@ -13,7 +13,7 @@ export default class GeneratorTwigComponent extends Generator {
     this.option('group', { type: String, required: false, default: '(None)' }) // set a default storybook group
   }
 
-  async prompting () {
+  async prompting() {
     if (!('tag' in this.options)) {
       this.answers = await this.prompt([
         {
@@ -90,7 +90,7 @@ export default class GeneratorTwigComponent extends Generator {
       }
       if (this.options.count !== 0) {
         this.answers.stories = Array.from(Array(this.options.count).keys())
-          .map(i => {
+          .map((i) => {
             return converter.toWords(i + 1)
           })
           .join(',')
@@ -98,7 +98,7 @@ export default class GeneratorTwigComponent extends Generator {
     }
   }
 
-  writing () {
+  writing() {
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
 
     // => "List Items", "Button"m "Page Title"
@@ -118,33 +118,34 @@ export default class GeneratorTwigComponent extends Generator {
       tag: tag,
       name: name,
       label: capitalCase(str),
-      description: this.answers.description,
+      description: sentenceCase(this.answers.description),
       behavior: this.answers.js || false,
       group: group ? group.toLowerCase() : false,
       title: this.answers.group
         ? `${this.answers.group}/${capitalCase(str)}`
         : capitalCase(str),
       stories: this.answers.stories
-        ? this.answers.stories.split(',').map(name => {
-          return {
-            name: pascalCase(name.trim()),
-            label: capitalCase(name.trim())
-          }
-        })
+        ? this.answers.stories.split(',').map((name) => {
+            return {
+              name: pascalCase(name.trim()),
+              label: capitalCase(name.trim())
+            }
+          })
         : [],
-      parameters: this.answers.parameters || null,
-      project: pkg ? pkg.name : 'PROJECT'
+      decorator: this.answers.parameters.includes('decorator') ? null : '// ',
+      paddings: this.answers.parameters.includes('paddings') ? null : '// ',
+      project: pkg ? pkg.name : 'PROJECT_NAME'
     }
 
-    const extensions = ['less', 'library.js', 'stories.js', 'twig']
+    const templates = ['less', 'library.js', 'stories.js', 'twig']
 
     if (this.options.js || this.answers.js) {
-      extensions.push('behavior.js')
+      templates.push('behavior.js')
     }
 
     this.destinationRoot(`components/${props.tag}`)
 
-    extensions.forEach(ext => {
+    templates.forEach((ext) => {
       this.fs.copyTpl(
         this.templatePath(`component.${ext}`),
         this.destinationPath(`${props.tag}.${ext}`),

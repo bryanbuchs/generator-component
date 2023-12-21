@@ -1,5 +1,5 @@
 /**
- * <%= name %>
+ * <%= title %>
  * <%= description %>
  */
 
@@ -11,13 +11,9 @@ import './<%= tag _%>.library.js'
 export default {
   title: '<%= title _%>',
   parameters: {
-<%_ if (parameters.includes("paddings")) { -%>
-    paddings: { disable: true }
-<%_ } -%>
+    <%= paddings _%>paddings: { disable: true }
   },
-<% if (parameters.includes("decorator")) { -%>
-  decorators: [story => `<div style="max-width:1200px">${story()}</div>`]
-<% } -%>
+  <%= decorator _%>decorators: [(story) => `<div style="max-width:1200px">${story()}</div>`]
 }
 <%_ if (stories.length) { -%>
 <% stories.forEach(function(obj) { %>
