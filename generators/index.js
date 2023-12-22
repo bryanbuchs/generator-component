@@ -56,7 +56,7 @@ export default class GeneratorTwigComponent extends Generator {
       {
         type: 'toggle',
         name: 'paddings',
-        message: 'Add Paddings?',
+        message: 'Remove Paddings?',
         default: false
       },
       {
@@ -92,8 +92,6 @@ export default class GeneratorTwigComponent extends Generator {
 
     const args = this.answers.args ? [...this.answers.args.split(',')].map(arg=>arg.trim()) : []
 
-console.log(args);
-
     const props = {
       tag: tag,
       name: name,
@@ -117,7 +115,7 @@ console.log(args);
           label: str.trim()
         }],
       decorator: this.answers.decorator ? null : '// ',
-      paddings: this.answers.paddings ? null : '// ',
+      paddings: this.answers.paddings ? '// ' : null,
       project: pkg ? pkg.name : 'PROJECT_NAME'
     }
 
