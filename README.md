@@ -20,13 +20,7 @@ Or, to simplify the `yo` command to `component`:
 
 Run the generator from the theme directory, files will be scaffolded into `components/{component-name}`:
 
-`yo component {component-name}` for defaults or `yo component` and follow the prompts.
-
-### Options
-
-#### Drupal Behaviors
-
-`yo component {component-name} --js` to include a `*.behavior.js` file in your component (or respond "Y" at the prompt)
+ `yo component` and follow the prompts.
 
 ### Output
 
