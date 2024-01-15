@@ -1,4 +1,4 @@
-# generator-drupal-twig-component
+# generator-component
 
 Generates a component directory for use with Storybook + Twig/Drupal
 
@@ -14,7 +14,7 @@ Requires Yeoman
 
 Or, to simplify the `yo` command to `component`:
 
-`npm i -g generator-component@npm:@bryanbuchs/generator-component` 
+`npm i -g generator-component@npm:@bryanbuchs/generator-component`
 
 ## Run
 
