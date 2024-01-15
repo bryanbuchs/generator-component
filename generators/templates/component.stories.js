@@ -5,26 +5,28 @@
 
 import DrupalAttribute from 'drupal-attribute'
 
-import Component from './<%= tag _%>.twig'
+import Template from './<%= tag _%>.twig'
 import './<%= tag _%>.library.js'
 
 export default {
-  title: '<%= title _%>',
+  title: '<%= title _%>'<% if (removePaddings || decorator) { -%>,<%_ } %>
+<% if (removePaddings) { -%>
   parameters: {
-    <%= paddings _%>paddings: { disable: true }
-  },
-  <%= decorator _%>decorators: [(story) => `<div style="max-width:1200px">${story()}</div>`]
+    paddings: { disable: true }
+  }<% if (decorator) { -%>,<%_ } %>
+<%_ } -%>
+<% if (decorator) { -%>
+  decorators: [(story) => `<div>${story()}</div>`]
+<%_ } -%>
 }
 
-<% stories.forEach(function(story) { %>
-// <%= story.name %>
-export const <%= story.name %> = {
-  name: '<%= story.label _%>',
-  render: Component,
+<% stories.forEach(function(story) { -%>
+export const <%= story %> = {
+  name: '<%= label _%>',
+  render: Template,
   args: {
-    label: '<%= story.label _%>',
 <% args.forEach(function(arg) { -%>
-    <%= arg _%>: 'VALUE',
+    <%= arg _%>: '<%= arg.toUpperCase() _%>',
 <% }) -%>
     attributes: new DrupalAttribute()
   }

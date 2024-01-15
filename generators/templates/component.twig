@@ -2,21 +2,17 @@
 
 {%
   set config = [
-    '<%= tag _%>',
-<% if (group) { -%>
-    '<%= group _%>',
-<%_ } -%>
+<% classes.forEach(function(str) { -%>
+    '<%= str _%>',
+<% }) -%>
   ]
 %}
 
-<div{{ attributes.addClass(classes, config) }}>
-
-  <h2>{{ label }}</h2>
+<div{{ attributes.setAttribute('class', config) }}>
 
   {% block content %}
-    <pre>@TODO</pre>
 <% args.forEach(function(arg) { -%>
-    <pre>{{ <%= arg %> }}</pre>
+    {{ <%= arg %> }}
 <% }) -%>
   {% endblock %}
 
