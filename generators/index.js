@@ -119,7 +119,7 @@ export default class GeneratorTwigComponent extends Generator {
       title: group ? `${group}/${component}` : component
     }
 
-    const templates = ['less', 'library.js', 'stories.js', 'twig']
+    const templates = ['less', 'library.js', 'stories.js', 'twig', 'yml']
 
     if (this.answers.js) {
       templates.push('behavior.js')

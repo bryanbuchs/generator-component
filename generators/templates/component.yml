@@ -1,0 +1,8 @@
+<%= tag %>:
+  css:
+    theme:
+      dist/<%= tag %>/<%= tag %>.css: {}
+<% if (behavior) { -%>
+  js:
+    dist/<%= tag %>/<%= tag %>.js: {}
+<%_ } -%>
