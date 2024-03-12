@@ -4,8 +4,6 @@ import { capitalCase, kebabCase, pascalCase, sentenceCase } from 'change-case'
 import Enquirer from 'enquirer'
 const { prompt } = Enquirer
 
-// const { List } = require('enquirer');
-
 export default class GeneratorTwigComponent extends Generator {
   async prompting() {
     this.answers = await prompt([
@@ -25,6 +23,7 @@ export default class GeneratorTwigComponent extends Generator {
           'content',
           'entity',
           'field',
+          'form',
           'global',
           'media',
           'nav',
