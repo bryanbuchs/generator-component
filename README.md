@@ -31,3 +31,4 @@ Running the generator will create a directory with a series of boilerplate files
 3. `components/{component-name}/{component-name}.stories.js`
 4. `components/{component-name}/{component-name}.twig`
 5. `components/{component-name}/{component-name}.behavior.js` (optional)
+6. `components/{component-name}/{component-name}.yml`
