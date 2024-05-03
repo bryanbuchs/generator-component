@@ -1,8 +1,10 @@
 <%= tag %>:
   css:
     theme:
-      dist/<%= tag %>/<%= tag %>.css: {}
+      dist/<%= tag %>/<%= tag %>.css: { minified: true }
 <% if (behavior) { -%>
   js:
-    dist/<%= tag %>/<%= tag %>.js: {}
+    dist/<%= tag %>/<%= tag %>.js: { attributes: { type: module } }
 <%_ } -%>
+  # dependencies:
+  #   - <%= project _%>/library-name
