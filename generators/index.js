@@ -103,6 +103,7 @@ export default class GeneratorTwigComponent extends Generator {
 
     const props = {
       args: this.answers.args,
+      fields: this.answers.args.map(field => `'${field}'`).join(', '),
       behavior: this.answers.js || false,
       classes: classes,
       decorator: this.answers.decorator,
@@ -112,7 +113,7 @@ export default class GeneratorTwigComponent extends Generator {
       label: label,
       name: name,
       project: pkg ? pkg.name : 'PROJECT',
-      removePaddings: this.answers.removePaddings,
+      paddings: !this.answers.removePaddings,
       stories: [name],
       tag: tag,
       title: group ? `${group}/${component}` : component
