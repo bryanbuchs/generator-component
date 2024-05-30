@@ -10,10 +10,10 @@ import './<%= tag _%>.library.js'
 // import { ComponentName } from '../component-name/component-name.stories.js'
 
 export default {
-  title: '<%= title _%>'<% if (removePaddings || decorator) { -%>,<%_ } %>
+  title: '<%= title _%>',
   parameters: {
-    // controls: { disable: true },
-<% if (removePaddings) { -%>
+    // controls: { exclude: [<%- args.map(field => `'${field}'`).join(', ') _%>] },
+<% if (!paddings) { -%>
     layout: 'fullscreen',
     paddings: { disable: true }
     <%_ } -%>
