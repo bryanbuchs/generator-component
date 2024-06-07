@@ -1,6 +1,6 @@
 {
   "name": "@bryanbuchs/generator-component",
-  "version": "4.7.3",
+  "version": "4.8.0",
   "description": "A yeoman generator for Drupal/Twig/Storybook components",
   "type": "module",
   "author": {

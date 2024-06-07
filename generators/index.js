@@ -5,19 +5,32 @@ import Enquirer from 'enquirer'
 const { prompt } = Enquirer
 
 export default class GeneratorTwigComponent extends Generator {
-  async prompting() {
+  constructor (args, opts) {
+    super(args, opts)
+
+    this.args.group = 0
+    this.args.component = null
+
+    if (this.args.length) {
+      const input = this.args[0].split('-')
+      this.args.group = input[0]
+      this.args.component = input[1]
+    }
+  }
+
+  async prompting () {
     this.answers = await prompt([
       {
         type: 'input',
         name: 'component',
-        message: 'Name of component ["card"]'
+        message: 'Name of component ["card"]',
+        default: this.args.component
       },
       {
-        type: 'autocomplete',
-        limit: 1,
+        type: 'select',
         name: 'group',
-        message: 'group ["entity"]',
-        choices: [
+        message: 'Storybook group ["entity"]',
+        choices:  [
           '',
           'block',
           'content',
@@ -34,16 +47,17 @@ export default class GeneratorTwigComponent extends Generator {
           'view',
           'widget'
         ],
-        default: 0
+        initial: this.args.group
       },
       {
         type: 'input',
-        name: 'description'
+        name: 'description',
+        message: 'Description of component ["A card component"]'
       },
       {
         type: 'list',
         name: 'args',
-        message: 'arguments ["name, rows, theme"]'
+        message: 'Story arguments ["title, cards, theme"]'
       },
       // {
       //   type: 'list',
@@ -51,6 +65,12 @@ export default class GeneratorTwigComponent extends Generator {
       //   message:
       //     'names of stories, comma-separated ["default, secondary"]'
       // },
+      {
+        type: 'toggle',
+        name: 'js',
+        message: 'Include *.behavior.js file?',
+        default: this.options.js ? true : false
+      },
       {
         type: 'toggle',
         name: 'removePaddings',
@@ -63,16 +83,10 @@ export default class GeneratorTwigComponent extends Generator {
         message: 'Add Decorator?',
         default: false
       },
-      {
-        type: 'toggle',
-        name: 'js',
-        message: 'Include *.behavior.js file?',
-        default: false
-      }
     ])
   }
 
-  writing() {
+  writing () {
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
 
     // => "List Items", "Button", "Page Title"
@@ -127,7 +141,7 @@ export default class GeneratorTwigComponent extends Generator {
 
     this.destinationRoot(`components/${props.tag}`)
 
-    templates.forEach((ext) => {
+    templates.forEach(ext => {
       this.fs.copyTpl(
         this.templatePath(`component.${ext}`),
         this.destinationPath(`${props.tag}.${ext}`),
