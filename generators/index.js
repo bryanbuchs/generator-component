@@ -8,14 +8,27 @@ export default class GeneratorTwigComponent extends Generator {
   constructor (args, opts) {
     super(args, opts)
 
+    // set defaults to pass to prompting()
     this.args.group = 0
     this.args.component = null
 
     if (this.args.length) {
       const input = this.args[0].split('-')
-      this.args.group = input[0]
-      this.args.component = input[1]
+
+      switch (input.length) {
+        case 2:
+          this.args.group = input[0]
+          this.args.component = input[1]
+          break
+
+        case 1:
+          this.args.component = input[0]
+          break
+      }
     }
+
+    this.log(`Creating a new component: ${this.args.component}`)
+    this.log(`Group: ${this.args.group}`)
   }
 
   async prompting () {
@@ -30,7 +43,7 @@ export default class GeneratorTwigComponent extends Generator {
         type: 'select',
         name: 'group',
         message: 'Storybook group ["entity"]',
-        choices:  [
+        choices: [
           '',
           'block',
           'content',
@@ -82,7 +95,7 @@ export default class GeneratorTwigComponent extends Generator {
         name: 'decorator',
         message: 'Add Decorator?',
         default: false
-      },
+      }
     ])
   }
 
