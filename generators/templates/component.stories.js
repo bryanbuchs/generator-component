@@ -28,8 +28,8 @@ export const <%= display %> = {
   name: '<%= label _%>',
   render: args => Template(args),
   args: {
-<% fields.forEach(field => { -%>
-    <%= field _%>: <% if (field.endsWith('s')) { _%> ['<%= field.slice(0, -1).toUpperCase() %>', '<%= field.slice(0, -1).toUpperCase() %>'] <%_ } else { _%> '<%= field.toUpperCase() _%>' <%_ } _%>,
+<% fieldnames.forEach(obj => { -%>
+    <%= obj.fieldname _%>: <%- obj.value _%>,
 <% }) -%>
     // child: ComponentName.render(ComponentName.args)
   }

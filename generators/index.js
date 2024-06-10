@@ -1,5 +1,7 @@
 import Generator from 'yeoman-generator'
-import { capitalCase, kebabCase, pascalCase, sentenceCase } from 'change-case'
+// import { capitalCase, kebabCase, pascalCase, sentenceCase } from 'change-case'
+
+import inflection from 'inflection'
 
 import Enquirer from 'enquirer'
 const { prompt } = Enquirer
@@ -103,20 +105,25 @@ export default class GeneratorTwigComponent extends Generator {
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
 
     // => "List Items", "Button", "Page Title"
-    const component = capitalCase(this.answers.component)
+    const component = inflection.titleize(this.answers.component)
 
     // => "Paragraph", "Element", null
-    const group = this.answers.group ? pascalCase(this.answers.group) : null
+    const group = this.answers.group
+      ? inflection.camelize(this.answers.group)
+      : null
 
     // => "paragraph-list-items", "element-button", "page-title"
-    const tag = group
-      ? `${kebabCase(group)}-${kebabCase(component)}`
-      : kebabCase(component)
+    let tag = group
+      ? `${inflection.dasherize(group)}-${inflection.dasherize(component)}`
+      : inflection.dasherize(component)
+    tag = tag.toLowerCase()
 
     // => "ParagraphListItems", "ElementButton", "PageTitle"
-    const name = group ? group + pascalCase(component) : pascalCase(component)
+    const name = group
+      ? group + inflection.camelize(component)
+      : inflection.camelize(component)
 
-    const label = capitalCase(component)
+    const label = inflection.titleize(component)
 
     // if (!this.answers.stories.length) {
     //   this.answers.stories.push(name)
@@ -128,12 +135,32 @@ export default class GeneratorTwigComponent extends Generator {
       classes.unshift(group.toLowerCase())
     }
 
+    const fieldnames = this.answers.fields.map(fieldname => {
+      fieldname = fieldname.toLowerCase()
+
+      let obj = {
+        isPlural: inflection.pluralize(fieldname) === fieldname,
+        singular: inflection.singularize(fieldname)
+      }
+
+      return {
+        ...obj,
+        fieldname: fieldname,
+        value: obj.isPlural
+          ? '[' +
+            Array(3).fill(`'${obj.singular.toUpperCase()}'`).join(', ') +
+            ']'
+          : `'${obj.singular.toUpperCase()}'`
+      }
+    })
+
     const props = {
+      fieldnames: fieldnames,
       fields: this.answers.fields,
       behavior: this.answers.js || false,
       classes: classes,
       decorator: this.answers.decorator,
-      description: sentenceCase(this.answers.description),
+      description: inflection.humanize(this.answers.description),
       forEach: group ? group.toLowerCase() : 'el',
       group: group,
       label: label,

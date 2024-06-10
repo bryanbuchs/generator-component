@@ -10,13 +10,13 @@
 
 <div{{ attributes.setAttribute('class', config) }}>
 
-<% fields.forEach(field => { -%>
-<% if (field.endsWith('s')) { -%>
-  {% for <%= field.slice(0, -1) %> in <%= field %> %}
-    {{ <%= field.slice(0, -1) %> }}
+<% fieldnames.forEach(obj => { -%>
+<% if (obj.isPlural) { -%>
+  {% for <%= obj.singular %> in <%= obj.fieldname %> %}
+    {{ <%= obj.singular %> }}
   {% endfor %}
 <% } else { -%>
-  {{ <%= field %> }}
+  {{ <%= obj.fieldname %> }}
 <% } -%>
 
 <% }) -%>

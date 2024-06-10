@@ -1,9 +1,9 @@
 .<%= tag -%> {
-<%_ fields.forEach((field, i) => { _%>
-  .<%= field %> {
+<%_ fieldnames.forEach((obj, i) => { _%>
+  .<%= obj.fieldname %> {
     // ...
   }
-<%_ if (i < fields.length - 1) { -%>
+<%_ if (i < fieldnames.length - 1) { -%>
 
 <%_ } -%>
 <%_ }) _%>
