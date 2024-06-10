@@ -140,7 +140,7 @@ export default class GeneratorTwigComponent extends Generator {
       name: name,
       project: pkg ? pkg.name : 'PROJECT',
       paddings: !this.answers.removePaddings,
-      stories: [name],
+      displays: [name],
       tag: tag,
       title: group ? `${group}/${component}` : component
     }

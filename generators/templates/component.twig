@@ -2,7 +2,7 @@
 
 {%
   set config = [
-<% classes.forEach(function(str) { -%>
+<% classes.forEach(str => { -%>
     '<%= str _%>',
 <% }) -%>
   ]
@@ -10,7 +10,7 @@
 
 <div{{ attributes.setAttribute('class', config) }}>
 
-<% fields.forEach(function(field) { -%>
+<% fields.forEach(field => { -%>
 <% if (field.endsWith('s')) { -%>
   {% for <%= field.slice(0, -1) %> in <%= field %> %}
     {{ <%= field.slice(0, -1) %> }}
