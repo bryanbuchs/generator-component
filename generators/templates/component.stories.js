@@ -12,7 +12,7 @@ import './<%= tag _%>.library.js'
 export default {
   title: '<%= title _%>',
   parameters: {
-    // controls: { exclude: [<%- args.map(field => `'${field}'`).join(', ') _%>] },
+    // controls: { exclude: [<%- fields.map(field => `'${field}'`).join(', ') _%>] },
 <% if (!paddings) { -%>
     layout: 'fullscreen',
     paddings: { disable: true }
@@ -28,8 +28,8 @@ export const <%= story %> = {
   name: '<%= label _%>',
   render: args => Template(args),
   args: {
-<% args.forEach(function(arg) { -%>
-    <%= arg _%>: '<%= arg.toUpperCase() _%>',
+<% fields.forEach(function(field) { -%>
+    <%= field _%>: <% if (field.endsWith('s')) { _%> ['<%= field.slice(0, -1).toUpperCase() %>', '<%= field.slice(0, -1).toUpperCase() %>'] <%_ } else { _%> '<%= field.toUpperCase() _%>' <%_ } _%>,
 <% }) -%>
     // child: ComponentName.render(ComponentName.args)
   }

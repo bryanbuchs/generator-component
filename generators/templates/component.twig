@@ -10,8 +10,14 @@
 
 <div{{ attributes.setAttribute('class', config) }}>
 
-<% args.forEach(function(arg) { -%>
-  {{ <%= arg %> }}
-<% }) -%>
+<% fields.forEach(function(field) { -%>
+<% if (field.endsWith('s')) { -%>
+  {% for <%= field.slice(0, -1) %> in <%= field %> %}
+    {{ <%= field.slice(0, -1) %> }}
+  {% endfor %}
+<% } else { -%>
+  {{ <%= field %> }}
+<% } -%>
 
+<% }) -%>
 </div>

@@ -69,7 +69,7 @@ export default class GeneratorTwigComponent extends Generator {
       },
       {
         type: 'list',
-        name: 'args',
+        name: 'fields',
         message: 'Story arguments ["title, cards, theme"]'
       },
       // {
@@ -129,8 +129,7 @@ export default class GeneratorTwigComponent extends Generator {
     }
 
     const props = {
-      args: this.answers.args,
-      fields: this.answers.args.map(field => `'${field}'`).join(', '),
+      fields: this.answers.fields,
       behavior: this.answers.js || false,
       classes: classes,
       decorator: this.answers.decorator,
