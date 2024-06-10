@@ -1,3 +1,10 @@
-.<%= tag %> {
-  // style stuff
+.<%= tag -%> {
+<%_ fields.forEach((field, i) => { _%>
+  .<%= field %> {
+    // ...
+  }
+<%_ if (i < fields.length - 1) { -%>
+
+<%_ } -%>
+<%_ }) _%>
 }
