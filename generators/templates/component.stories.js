@@ -19,14 +19,14 @@ export default {
     <%_ } -%>
   }<% if (decorator) { -%>,<%_ } %>
 <% if (decorator) { -%>
-  decorators: [(story) => `<div>${story()}</div>`]
+  decorators: [story => `<div>${story()}</div>`]
 <%_ } -%>
 }
 
 <% stories.forEach(function(story) { -%>
 export const <%= story %> = {
   name: '<%= label _%>',
-  render: (args) => Template(args),
+  render: args => Template(args),
   args: {
 <% args.forEach(function(arg) { -%>
     <%= arg _%>: '<%= arg.toUpperCase() _%>',
