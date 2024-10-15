@@ -15,7 +15,6 @@ export default {
     // controls: { exclude: [<%- fields.map(field => `'${field}'`).join(', ') _%>] },
 <% if (!paddings) { -%>
     layout: 'fullscreen',
-    paddings: { disable: true }
     <%_ } -%>
   }<% if (decorator) { -%>,<%_ } %>
 <% if (decorator) { -%>
