@@ -28,9 +28,6 @@ export default class GeneratorTwigComponent extends Generator {
           break
       }
     }
-
-    this.log(`Creating a new component: ${this.args.component}`)
-    this.log(`Group: ${this.args.group}`)
   }
 
   async prompting () {
