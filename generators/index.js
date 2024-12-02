@@ -101,26 +101,53 @@ export default class GeneratorTwigComponent extends Generator {
   writing () {
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
 
-    // => "List Items", "Button", "Page Title"
-    const component = inflection.titleize(this.answers.component)
+    // this.answers.component: "button", "page-title"
+    // this.answers.group: "element", "block"
+
+    // replace all punctuation in the string `component` with spaces, then remove any double-spaces
+    // "page-title" => "page title"
+    const spaced = this.answers.component
+      .replace(/[^\w\s]|_/g, ' ')
+      .replace(/\s+/g, ' ')
 
     // => "Paragraph", "Element", null
     const group = this.answers.group
       ? inflection.camelize(this.answers.group)
       : null
 
+
+
+
+
+
+    // replace all spaces with underscores
+    // "page title" => "page_title"
+    const underscored = spaced.replace(/\s/g, '_')
+
+    // replace all underscores with dashes
+    // "page_title" => "page-title"
+    const dasherized = inflection.dasherize(underscored)
+
+    // titleize the string
+    // "page title" => "Page Title"
+    const titleized = inflection.titleize(spaced)
+
+    // camelize the string
+    // "page_title" => "PageTitle"
+    const camelized = inflection.camelize(underscored)
+
+
+
     // => "paragraph-list-items", "element-button", "page-title"
     let tag = group
-      ? `${inflection.dasherize(group)}-${inflection.dasherize(component)}`
-      : inflection.dasherize(component)
+      ? `${inflection.dasherize(group)}-${dasherized}`
+      : dasherized
     tag = tag.toLowerCase()
 
     // => "ParagraphListItems", "ElementButton", "PageTitle"
-    const name = group
-      ? group + inflection.camelize(component)
-      : inflection.camelize(component)
+    const name = group ? group + camelized : camelized
 
-    const label = inflection.titleize(component)
+    const label = titleized
 
     // if (!this.answers.stories.length) {
     //   this.answers.stories.push(name)
@@ -166,7 +193,7 @@ export default class GeneratorTwigComponent extends Generator {
       paddings: !this.answers.removePaddings,
       displays: [name],
       tag: tag,
-      title: group ? `${group}/${component}` : component
+      title: group ? `${group}/${titleized}` : titleized
     }
 
     const templates = ['less', 'library.js', 'stories.js', 'twig', 'yml']
