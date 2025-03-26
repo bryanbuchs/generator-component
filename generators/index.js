@@ -31,6 +31,7 @@ export default class GeneratorTwigComponent extends Generator {
   }
 
   async prompting () {
+    // Prompt for component name and group first
     this.answers = await prompt([
       {
         type: 'input',
@@ -41,9 +42,8 @@ export default class GeneratorTwigComponent extends Generator {
       {
         type: 'select',
         name: 'group',
-        message: 'Storybook group ["entity"]',
+        message: 'Group ["entity"]',
         choices: [
-          '',
           'block',
           'content',
           'entity',
@@ -57,7 +57,8 @@ export default class GeneratorTwigComponent extends Generator {
           'paragraph',
           'region',
           'view',
-          'widget'
+          'widget',
+          '',
         ],
         initial: this.args.group
       },
@@ -65,18 +66,43 @@ export default class GeneratorTwigComponent extends Generator {
         type: 'input',
         name: 'description',
         message: 'Description of component ["A card component"]'
-      },
-      {
-        type: 'list',
-        name: 'fields',
-        message: 'Story arguments ["title, cards, theme"]'
-      },
-      // {
-      //   type: 'list',
-      //   name: 'stories',
-      //   message:
-      //     'names of stories, comma-separated ["default, secondary"]'
-      // },
+      }
+    ])
+
+    // Prompt for fields as a group (name and type)
+    this.answers.fields = []
+    while (true) {
+      const { fieldName } = await prompt({
+        type: 'input',
+        name: 'fieldName',
+        message: 'Field Name:'
+      })
+
+      if (!fieldName) break
+
+      const { fieldType } = await prompt({
+        type: 'select',
+        name: 'fieldType',
+        message: `Field Type":`,
+        choices: ['string', 'number', 'boolean', 'array', 'object', 'slot']
+      })
+
+      let fieldRequired = false
+      if (fieldType !== 'slot') {
+        const response = await prompt({
+          type: 'toggle',
+          name: 'fieldRequired',
+          message: `Required?`,
+          default: false
+        })
+        fieldRequired = response.fieldRequired
+      }
+
+      this.answers.fields.push({ name: fieldName, type: fieldType, required: fieldRequired })
+    }
+
+    // Prompt for the remaining questions
+    const remainingAnswers = await prompt([
       {
         type: 'toggle',
         name: 'js',
@@ -96,13 +122,65 @@ export default class GeneratorTwigComponent extends Generator {
         default: false
       }
     ])
+
+    // Merge the remaining answers into this.answers
+    Object.assign(this.answers, remainingAnswers)
   }
 
   writing () {
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
 
-    // this.answers.component: "button", "page-title"
-    // this.answers.group: "element", "block"
+    // Separate fields into `fields` and `slots`
+    const fields = this.answers.fields
+      .filter(field => field.type !== 'slot')
+      .map(field => {
+        const singular = inflection.singularize(field.name)
+        const plural = inflection.pluralize(field.name)
+
+        let value
+        switch (field.type) {
+          case 'array':
+            value = Array(3).fill(`'${singular.toUpperCase()}'`)
+            value = `[${value.join(', ')}]`
+            break
+          case 'boolean':
+            value = true
+            break
+          case 'string':
+            value = `'${field.name.toUpperCase()}'`
+            break
+          case 'object':
+            value = `{ key: 'value' }`
+            break
+          case 'number':
+            value = 3
+            break
+          default:
+            value = `null`
+        }
+
+        return {
+          ...field,
+          label: inflection.titleize(field.name),
+          singular: field.type === 'array' ? singular : undefined,
+          plural: field.type === 'array' ? plural : undefined,
+          value: value
+        }
+      })
+
+
+    const requiredFields = this.answers.fields
+      .filter(field => field.required)
+      .map(field => field.name)
+
+
+    // @TODO: add default values for slots?
+    const slots = this.answers.fields
+      .filter(field => field.type === 'slot')
+      .map(slot => ({
+        name: slot.name,
+        label: inflection.titleize(slot.name)
+      }))
 
     // replace all punctuation in the string `component` with spaces, then remove any double-spaces
     // "page-title" => "page title"
@@ -114,11 +192,6 @@ export default class GeneratorTwigComponent extends Generator {
     const group = this.answers.group
       ? inflection.camelize(this.answers.group)
       : null
-
-
-
-
-
 
     // replace all spaces with underscores
     // "page title" => "page_title"
@@ -136,8 +209,6 @@ export default class GeneratorTwigComponent extends Generator {
     // "page_title" => "PageTitle"
     const camelized = inflection.camelize(underscored)
 
-
-
     // => "paragraph-list-items", "element-button", "page-title"
     let tag = group
       ? `${inflection.dasherize(group)}-${dasherized}`
@@ -149,40 +220,21 @@ export default class GeneratorTwigComponent extends Generator {
 
     const label = titleized
 
-    // if (!this.answers.stories.length) {
-    //   this.answers.stories.push(name)
-    // }
-
     // => ['paragraph', 'paragraph-list-items']
-    const classes = [tag]
+    const cssClasses = [tag]
     if (group) {
-      classes.unshift(group.toLowerCase())
+      cssClasses.unshift(group.toLowerCase())
     }
 
-    const fieldnames = this.answers.fields.map(fieldname => {
-      fieldname = fieldname.toLowerCase()
-
-      let obj = {
-        isPlural: inflection.pluralize(fieldname) === fieldname,
-        singular: inflection.singularize(fieldname)
-      }
-
-      return {
-        ...obj,
-        fieldname: fieldname,
-        value: obj.isPlural
-          ? '[' +
-            Array(3).fill(`'${obj.singular.toUpperCase()}'`).join(', ') +
-            ']'
-          : `'${obj.singular.toUpperCase()}'`
-      }
-    })
+    const args = [...fields.map(field => field.name), ...slots.map(slot => slot.name)];
 
     const props = {
-      fieldnames: fieldnames,
-      fields: this.answers.fields,
+      fields: fields,
+      required: requiredFields,
+      slots: slots,
+      args: args,
       behavior: this.answers.js || false,
-      classes: classes,
+      cssClasses: cssClasses,
       decorator: this.answers.decorator,
       description: inflection.humanize(this.answers.description),
       forEach: group ? group.toLowerCase() : 'el',
@@ -196,7 +248,13 @@ export default class GeneratorTwigComponent extends Generator {
       title: group ? `${group}/${titleized}` : titleized
     }
 
-    const templates = ['less', 'library.js', 'stories.js', 'twig', 'yml']
+    const templates = [
+      'less',
+      'library.js',
+      'stories.js',
+      'twig',
+      'component.yml'
+    ]
 
     if (this.answers.js) {
       templates.push('behavior.js')

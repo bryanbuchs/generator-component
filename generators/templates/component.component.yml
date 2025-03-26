@@ -1,0 +1,48 @@
+# reference: https://www.drupal.org/docs/develop/theming-drupal/using-single-directory-components/annotated-example-componentyml#s-full-example
+
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+
+name: <%= label %>
+group: <%= group %>
+
+# Status can be: "experimental", "stable", "deprecated", "obsolete".
+status: experimental
+
+props:
+  type: object
+<% if (required.length) { -%>
+  required:
+<% required.forEach(field => { -%>
+    - <%= field %>
+<% }) -%>
+<% } -%>
+  properties:
+<% fields.forEach(field => { -%>
+    <%= field.name %>:
+      title: <%= field.label %>
+      type: <%= field.type %>
+<% if (field.type === 'array') { -%>
+      items:
+        type: string
+<% } -%>
+<% }) -%>
+
+<% if (slots.length) { _%>
+slots:
+<% slots.forEach(slot => { -%>
+  <%= slot.name %>:
+    title: <%= slot.label %>
+<% }) %>
+<%_ } _%>
+libraryOverrides:
+  css:
+    theme:
+      dist/<%= tag %>/<%= tag %>.css: { minified: true }
+  <%_ if (behavior) { _%>
+  js:
+    dist/<%= tag %>/<%= tag %>.js: { attributes: { type: module } }
+  dependencies:
+    - core/drupal
+    - core/once
+    # - <%= project _%>/library-name
+  <%_ } _%>

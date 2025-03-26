@@ -12,7 +12,7 @@ import './<%= tag _%>.library.js'
 export default {
   title: '<%= title _%>',
   parameters: {
-    // controls: { exclude: [<%- fields.map(field => `'${field}'`).join(', ') _%>] },
+    // controls: { exclude: [<%- args.map(arg => `'${arg}'`).join(', ') _%>] },
 <% if (!paddings) { -%>
     layout: 'fullscreen',
     <%_ } -%>
@@ -27,8 +27,8 @@ export const <%= display %> = {
   name: '<%= label _%>',
   render: args => Template(args),
   args: {
-<% fieldnames.forEach(obj => { -%>
-    <%= obj.fieldname _%>: <%- obj.value _%>,
+<% fields.forEach(obj => { -%>
+    <%= obj.name _%>: <%- obj.value _%>,
 <% }) -%>
     // child: ComponentName.render(ComponentName.args)
   }
