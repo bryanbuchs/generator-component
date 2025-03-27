@@ -1,43 +1,74 @@
 import Generator from 'yeoman-generator'
-// import { capitalCase, kebabCase, pascalCase, sentenceCase } from 'change-case'
-
 import inflection from 'inflection'
-
 import Enquirer from 'enquirer'
+
 const { prompt } = Enquirer
 
-export default class GeneratorTwigComponent extends Generator {
+export default class GeneratorSDC extends Generator {
   constructor (args, opts) {
     super(args, opts)
 
-    // set defaults to pass to prompting()
-    this.args.group = 0
-    this.args.component = null
-
-    if (this.args.length) {
-      const input = this.args[0].split('-')
-
-      switch (input.length) {
-        case 2:
-          this.args.group = input[0]
-          this.args.component = input[1]
-          break
-
-        case 1:
-          this.args.component = input[0]
-          break
-      }
+    // Parse command-line arguments
+    const [groupComponent] = args || []
+    if (groupComponent) {
+      const [group, component] = groupComponent.split('-')
+      this.options.group = group
+      this.options.component = component
     }
+
+    if (opts.fields) {
+      this.options.fields = opts.fields.split(',').map(field => {
+        const isBoolean = field.startsWith('is') || field.startsWith('has')
+        const name = isBoolean ? field.replace(/^(is|has)/, '') : field
+        return {
+          name: name.toLowerCase(),
+          type: isBoolean
+            ? 'boolean'
+            : field.endsWith('s')
+            ? 'array'
+            : 'string',
+          required: true
+        }
+      })
+    }
+
+    if (opts.slots) {
+      // Ensure fields array exists
+      this.options.fields = this.options.fields || []
+      // Append slots to fields array
+      this.options.fields.push(
+        ...opts.slots.split(',').map(slot => ({
+          name: slot,
+          type: 'slot'
+        }))
+      )
+    }
+
+    this.options.js = !!opts.js
   }
 
   async prompting () {
+    if (this.options.component && this.options.group) {
+      // Skip prompts if arguments are provided
+      this.answers = {
+        component: this.options.component,
+        group: this.options.group,
+        fields: this.options.fields || [],
+        slots: [], // Slots are now part of fields
+        js: this.options.js,
+        removePaddings: false,
+        decorator: false,
+        description: `A ${this.options.component} component`
+      }
+      return
+    }
+
     // Prompt for component name and group first
     this.answers = await prompt([
       {
         type: 'input',
         name: 'component',
-        message: 'Name of component ["card"]',
-        default: this.args.component
+        message: 'Name of component ["card"]'
       },
       {
         type: 'select',
@@ -58,9 +89,8 @@ export default class GeneratorTwigComponent extends Generator {
           'region',
           'view',
           'widget',
-          '',
-        ],
-        initial: this.args.group
+          ''
+        ]
       },
       {
         type: 'input',
@@ -80,12 +110,22 @@ export default class GeneratorTwigComponent extends Generator {
 
       if (!fieldName) break
 
-      const { fieldType } = await prompt({
-        type: 'select',
-        name: 'fieldType',
-        message: `Field Type":`,
-        choices: ['string', 'number', 'boolean', 'array', 'object', 'slot']
-      })
+      const fieldType =
+        fieldName.startsWith('is') || fieldName.startsWith('has')
+          ? 'boolean'
+          : await prompt({
+              type: 'select',
+              name: 'fieldType',
+              message: `Field Type:`,
+              choices: [
+                'array',
+                'boolean',
+                'number',
+                'object',
+                'slot',
+                'string'
+              ]
+            }).then(response => response.fieldType)
 
       let fieldRequired = false
       if (fieldType !== 'slot') {
@@ -98,7 +138,11 @@ export default class GeneratorTwigComponent extends Generator {
         fieldRequired = response.fieldRequired
       }
 
-      this.answers.fields.push({ name: fieldName, type: fieldType, required: fieldRequired })
+      this.answers.fields.push({
+        name: fieldName,
+        type: fieldType,
+        required: fieldRequired
+      })
     }
 
     // Prompt for the remaining questions
@@ -168,11 +212,9 @@ export default class GeneratorTwigComponent extends Generator {
         }
       })
 
-
     const requiredFields = this.answers.fields
       .filter(field => field.required)
       .map(field => field.name)
-
 
     // @TODO: add default values for slots?
     const slots = this.answers.fields
@@ -226,7 +268,10 @@ export default class GeneratorTwigComponent extends Generator {
       cssClasses.unshift(group.toLowerCase())
     }
 
-    const args = [...fields.map(field => field.name), ...slots.map(slot => slot.name)];
+    const args = [
+      ...fields.map(field => field.name),
+      ...slots.map(slot => slot.name)
+    ]
 
     const props = {
       fields: fields,
