@@ -1,6 +1,6 @@
 # generator-component
 
-Generates a component directory for use with Storybook + Twig/Drupal
+Generates a Drupal single directory component and Storybook stories
 
 ## Requirements
 
@@ -20,10 +20,7 @@ Or, to simplify the `yo` command to `component`:
 
 Run the generator from the theme directory, files will be scaffolded into `components/{component-name}`:
 
-1. `yo component` and follow the prompts.
-2. `yo component name` to prefill the name prompt
-3. `yo component group-name` to prefill the name and group prompts (splits on "-")
-4. `yo component --js` to prefill "y" in the "Include *.behavior.js file?"
+`yo component` and follow the prompts.
 
 ### Prompts
 
@@ -33,10 +30,19 @@ Run the generator from the theme directory, files will be scaffolded into `compo
 The `group` and `name` values will be combined to create `component-name` ("MediaVideo", "media-video")
 
 * `description` - Optional; added as a comment in the story and behavior files
-* `fields` - A list of fieldnames for the component. Added to the story args with default values, output in the twig file, and placeholders in the less file. If a fieldname is plural ("cards", "people"), it will be treated as an array in story/twig
+* `fields` - An areay of fieldnames for the component. Choose a field type for each, and indicate if it is required.
 * `js` - Boolean flag to add a behavior.js file to the component + library
 * `removePaddings` - Boolean flag to remove paddings from the story parameters
 * `decorator` - Boolean flag to wrap the story output in additional markup
+
+### CLI argument and options 
+
+`yo component group-name --fields=field1,field2 --slots=slot1,slot2 --js`
+
+Fields:
+
+* If a fieldname is plural ("cards", "people"), it will be treated as an array
+* If a fieldname begins with "is" or "has" it will be treated as a boolean
 
 ### Output
 
@@ -47,4 +53,4 @@ Running the generator will create a directory with a series of boilerplate files
 3. `components/{component-name}/{component-name}.library.js`
 4. `components/{component-name}/{component-name}.less`
 5. `components/{component-name}/{component-name}.behavior.js`
-6. `components/{component-name}/{component-name}.yml`
+6. `components/{component-name}/{component-name}.component.yml`
