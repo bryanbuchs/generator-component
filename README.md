@@ -27,19 +27,18 @@ Run the generator from the theme directory, files will be scaffolded into `compo
 * `name` - The base name of the component ("Video")
 * `group` - The name of the storybook group for the component ("Media")
 
-The `group` and `name` values will be combined to create `component-name` ("MediaVideo", "media-video")
+The `group` and `name` values will be combined to create the `component-name` ("MediaVideo", "media-video")
 
 * `description` - Optional; added as a comment in the story and behavior files
 * `fields` - An areay of fieldnames for the component. Choose a field type for each, and indicate if it is required.
-* `js` - Boolean flag to add a behavior.js file to the component + library
-* `removePaddings` - Boolean flag to remove paddings from the story parameters
-* `decorator` - Boolean flag to wrap the story output in additional markup
+* `js` - Boolean choice to add a behavior.js file to the component + library
+* `style` - Select what format (if any) stylesheets are in (`less`, `css`, or none)
 
 ### CLI argument and options 
 
 `yo component group-name --fields=field1,field2 --slots=slot1,slot2 --js`
 
-Fields:
+#### `--fields`:
 
 * If a fieldname is plural ("cards", "people"), it will be treated as an array
 * If a fieldname begins with "is" or "has" it will be treated as a boolean
@@ -48,9 +47,9 @@ Fields:
 
 Running the generator will create a directory with a series of boilerplate files:
 
-1. `components/{component-name}/{component-name}.stories.js`
-2. `components/{component-name}/{component-name}.twig`
-3. `components/{component-name}/{component-name}.library.js`
-4. `components/{component-name}/{component-name}.less`
-5. `components/{component-name}/{component-name}.behavior.js`
-6. `components/{component-name}/{component-name}.component.yml`
+1. `components/{component-name}/{component-name}.component.yml`
+2. `components/{component-name}/{component-name}.stories.js`
+3. `components/{component-name}/{component-name}.twig`
+4. `components/{component-name}/{component-name}.library.js`
+5. `components/{component-name}/{component-name}.(css|less)`
+6. `components/{component-name}/{component-name}.behavior.js`
