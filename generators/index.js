@@ -56,8 +56,6 @@ export default class GeneratorSDC extends Generator {
         fields: this.options.fields || [],
         slots: [], // Slots are now part of fields
         js: this.options.js,
-        removePaddings: false,
-        decorator: false,
         description: `A ${this.options.component} component`
       }
       return
@@ -75,21 +73,21 @@ export default class GeneratorSDC extends Generator {
         name: 'group',
         message: 'Group ["entity"]',
         choices: [
-          'block',
-          'content',
-          'entity',
-          'field',
-          'form',
-          'global',
-          'media',
-          'nav',
-          'node',
-          'page',
-          'paragraph',
-          'region',
-          'view',
-          'widget',
-          ''
+          { message: 'Block', value: 'block' },
+          { message: 'Content', value: 'content' },
+          { message: 'Entity', value: 'entity' },
+          { message: 'Field', value: 'field' },
+          { message: 'Form', value: 'form' },
+          { message: 'Global', value: 'global' },
+          { message: 'Media', value: 'media' },
+          { message: 'Nav', value: 'nav' },
+          { message: 'Node', value: 'node' },
+          { message: 'Page', value: 'page' },
+          { message: 'Paragraph', value: 'paragraph' },
+          { message: 'Region', value: 'region' },
+          { message: 'View', value: 'view' },
+          { message: 'Widget', value: 'widget' },
+          { message: '-none-', value: '' }
         ]
       },
       {
@@ -118,12 +116,12 @@ export default class GeneratorSDC extends Generator {
               name: 'fieldType',
               message: `Field Type:`,
               choices: [
-                'array',
-                'boolean',
-                'number',
-                'object',
-                'slot',
-                'string'
+                { message: 'Array', value: 'array' },
+                { message: 'Boolean', value: 'boolean' },
+                { message: 'Number', value: 'number' },
+                { message: 'Object', value: 'object' },
+                { message: 'String', value: 'string' },
+                { message: 'Slot', value: 'slot' }
               ]
             }).then(response => response.fieldType)
 
@@ -154,16 +152,14 @@ export default class GeneratorSDC extends Generator {
         default: this.options.js ? true : false
       },
       {
-        type: 'toggle',
-        name: 'removePaddings',
-        message: 'Remove Paddings?',
-        default: false
-      },
-      {
-        type: 'toggle',
-        name: 'decorator',
-        message: 'Add Decorator?',
-        default: false
+        name: 'style',
+        type: 'select',
+        message: 'Style format',
+        choices: [
+          { message: 'LESS', value: 'less' },
+          { message: 'CSS', value: 'css' },
+          { message: '-none-', value: '' }
+        ]
       }
     ])
 
@@ -280,30 +276,26 @@ export default class GeneratorSDC extends Generator {
       args: args,
       behavior: this.answers.js || false,
       cssClasses: cssClasses,
-      decorator: this.answers.decorator,
       description: inflection.humanize(this.answers.description),
       forEach: group ? group.toLowerCase() : 'el',
       group: group,
       label: label,
       name: name,
       project: pkg ? pkg.name : 'PROJECT',
-      paddings: !this.answers.removePaddings,
       displays: [name],
+      style: this.answers.style,
       tag: tag,
       title: group ? `${group}/${titleized}` : titleized
     }
 
     const templates = [
-      'less',
-      'library.js',
-      'stories.js',
+      'component.yml',
       'twig',
-      'component.yml'
-    ]
-
-    if (this.answers.js) {
-      templates.push('behavior.js')
-    }
+      'stories.js',
+      this.answers.style || this.answers.js ? 'library.js' : null,
+      this.answers.style ? this.answers.style : null,
+      this.answers.js ? 'behavior.js' : null
+    ].filter(Boolean)
 
     this.destinationRoot(`components/${props.tag}`)
 

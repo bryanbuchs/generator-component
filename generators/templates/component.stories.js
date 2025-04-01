@@ -11,15 +11,11 @@ import './<%= tag _%>.library.js'
 
 export default {
   title: '<%= title _%>',
-  parameters: {
-    // controls: { exclude: [<%- args.map(arg => `'${arg}'`).join(', ') _%>] },
-<% if (!paddings) { -%>
-    layout: 'fullscreen',
-    <%_ } -%>
-  }<% if (decorator) { -%>,<%_ } %>
-<% if (decorator) { -%>
-  decorators: [story => `<div>${story()}</div>`]
-<%_ } -%>
+  // parameters: {
+  //   controls: { exclude: [<%- args.map(arg => `'${arg}'`).join(', ') _%>] },
+  //   layout: 'fullscreen',
+  // },
+  // decorators: [story => `<div>${story()}</div>`]
 }
 
 <% displays.forEach(display => { -%>
