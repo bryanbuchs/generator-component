@@ -158,7 +158,7 @@ export default class GeneratorSDC extends Generator {
         choices: [
           { message: 'LESS', value: 'less' },
           { message: 'CSS', value: 'css' },
-          { message: '-none-', value: '' }
+          { message: '-none-', value: false }
         ]
       }
     ])
@@ -168,6 +168,12 @@ export default class GeneratorSDC extends Generator {
   }
 
   writing () {
+    this.answers.group =
+      this.answers.group == '-none-' ? null : this.answers.group
+
+    this.answers.style =
+      this.answers.style == '-none-' ? null : this.answers.style
+
     const pkg = this.fs.readJSON(`${this.contextRoot}/package.json`)
 
     // Separate fields into `fields` and `slots`
@@ -269,12 +275,16 @@ export default class GeneratorSDC extends Generator {
       ...slots.map(slot => slot.name)
     ]
 
+    const imports = {
+      ...(this.answers.style && { style: `${tag}.${this.answers.style}` }),
+      ...(this.answers.js && { script: `${tag}.behavior.js` })
+    }
+
     const props = {
       fields: fields,
       required: requiredFields,
       slots: slots,
       args: args,
-      behavior: this.answers.js || false,
       cssClasses: cssClasses,
       description: inflection.humanize(this.answers.description),
       forEach: group ? group.toLowerCase() : 'el',
@@ -283,8 +293,8 @@ export default class GeneratorSDC extends Generator {
       name: name,
       project: pkg ? pkg.name : 'PROJECT',
       displays: [name],
-      style: this.answers.style,
       tag: tag,
+      imports: imports,
       title: group ? `${group}/${titleized}` : titleized
     }
 

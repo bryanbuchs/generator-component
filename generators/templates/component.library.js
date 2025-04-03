@@ -1,6 +1,3 @@
-<% if (style) { -%>
-import './<%= tag _%>.<%= style _%>'
-<%_ } -%>
-<% if (behavior) { -%>
-import './<%= tag _%>.behavior.js'
+<% for (const [key, value] of Object.entries(imports)) { -%>
+import './<%= value %>'; // <%= key %>
 <%_ } -%>
