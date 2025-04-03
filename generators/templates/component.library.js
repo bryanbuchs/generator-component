@@ -1,3 +1,3 @@
-<% for (const [key, value] of Object.entries(imports)) { -%>
-import './<%= value %>'; // <%= key %>
-<%_ } -%>
+<% imports.forEach(filename => { -%>
+import './<%= filename %>';
+<%_ }) -%>

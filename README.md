@@ -34,7 +34,7 @@ The `group` and `name` values will be combined to create the `component-name` ("
 * `js` - Boolean choice to add a behavior.js file to the component + library
 * `style` - Select what format (if any) stylesheets are in (`less`, `css`, or none)
 
-### CLI argument and options 
+### CLI argument and options
 
 `yo component group-name --fields=field1,field2 --slots=slot1,slot2 --js`
 
@@ -42,6 +42,18 @@ The `group` and `name` values will be combined to create the `component-name` ("
 
 * If a fieldname is plural ("cards", "people"), it will be treated as an array
 * If a fieldname begins with "is" or "has" it will be treated as a boolean
+
+### `slots`:
+
+* a simple list of slot names ("body,sidebar")
+
+### `--js`:
+
+* flag to generate a `behavior.js` file
+
+### `--css`:
+
+* specify the format for styles. a `false` value will not generate a stylesheet
 
 ### Output
 

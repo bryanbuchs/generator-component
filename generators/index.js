@@ -45,6 +45,9 @@ export default class GeneratorSDC extends Generator {
     }
 
     this.options.js = !!opts.js
+
+    // add option for style format. pass "false" to disable style generation. defaults to LESS
+    this.options.style = opts.css == 'false' ? null : opts.css || 'less'
   }
 
   async prompting () {
@@ -56,11 +59,13 @@ export default class GeneratorSDC extends Generator {
         fields: this.options.fields || [],
         slots: [], // Slots are now part of fields
         js: this.options.js,
+        style: this.options.style || null,
         description: `A ${this.options.component} component`
       }
       return
     }
 
+    console.log('start prompting')
     // Prompt for component name and group first
     this.answers = await prompt([
       {
@@ -275,9 +280,20 @@ export default class GeneratorSDC extends Generator {
       ...slots.map(slot => slot.name)
     ]
 
-    const imports = {
-      ...(this.answers.style && { style: `${tag}.${this.answers.style}` }),
-      ...(this.answers.js && { script: `${tag}.behavior.js` })
+    // imports
+    const imports = [
+      ...(this.answers.style ? [`${tag}.${this.answers.style}`] : []),
+      ...(this.answers.js ? [`${tag}.behavior.js`] : [])
+    ]
+
+    // exports is an object that has keys for the css and js paths
+    const exports = {
+      ...(this.answers.style && {
+      style: this.answers.style === 'css'
+        ? `${tag}.${this.answers.style}`
+        : `dist/${tag}.css`
+      }),
+      ...(this.answers.js && { script: `dist/${tag}.js` })
     }
 
     const props = {
@@ -295,6 +311,7 @@ export default class GeneratorSDC extends Generator {
       displays: [name],
       tag: tag,
       imports: imports,
+      exports: exports,
       title: group ? `${group}/${titleized}` : titleized
     }
 
