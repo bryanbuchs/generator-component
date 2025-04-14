@@ -126,6 +126,7 @@ export default class GeneratorSDC extends Generator {
                 { message: 'Number', value: 'number' },
                 { message: 'Object', value: 'object' },
                 { message: 'String', value: 'string' },
+                // @TODO: "Reference" type -- would trigger adding child component code to stories, but the literal field type is still a string
                 { message: 'Slot', value: 'slot' }
               ]
             }).then(response => response.fieldType)
@@ -223,7 +224,7 @@ export default class GeneratorSDC extends Generator {
       .filter(field => field.required)
       .map(field => field.name)
 
-    // @TODO: add default values for slots?
+    // @TODO: add default values for slots in storybook?
     const slots = this.answers.fields
       .filter(field => field.type === 'slot')
       .map(slot => ({
