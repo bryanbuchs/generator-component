@@ -26,7 +26,7 @@ export const <%= display %> = {
 <% fields.forEach(obj => { -%>
     <%= obj.name _%>: <%- obj.value _%>,
 <% }) -%>
-    // child: ComponentName.render(ComponentName.args)
+    // children: Array(3).fill().map(child => ComponentName.render(ComponentName.args))
   }
 }
 <% }) -%>
