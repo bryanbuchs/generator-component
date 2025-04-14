@@ -10,7 +10,6 @@ props:
   type: object
   properties:<% fields.forEach(field => { %>
     <%= field.name %>:
-      title: <%= field.label %>
       type: <%= field.type %><% if (field.type === 'array') { %>
       items:
         type: string<% } %><% }) %><% if (required.length) { %>
@@ -18,16 +17,16 @@ props:
     - <%= field %><% }) %><% } %>
 <% if (slots.length) { %>
 slots:<% slots.forEach(slot => { %>
-  <%= slot.name %>:
-    title: <%= slot.label %><% }) %><% } %>
+  <%= slot.name %>: { }<% }) %><% } %>
 <% if (exports.style || exports.script) { %>
 libraryOverrides:<% if (exports.style) { %>
   css:
     theme:
       <%= exports.style %>: { minified: true }<% } %><% if (exports.script) { %>
   js:
-    <%= exports.script %>: { attributes: { type: module } }
+    <%= exports.script %>: { attributes: { type: module } }<% } %>
   dependencies:
-    - core/drupal
-    - core/once
-    # - <%= project %>/library-name<% } %><% } %>
+    <% if (!exports.script) { %># <% } %>- core/drupal
+    <% if (!exports.script) { %># <% } %>- core/once
+    # use a library from another component
+    # - core/components.THEME--COMPONENT<% } %>
