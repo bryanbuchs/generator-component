@@ -21,7 +21,7 @@ slots:<% slots.forEach(slot => { %>
 <% if (exports.style || exports.script) { %>
 libraryOverrides:<% if (exports.style) { %>
   css:
-    theme:
+    component:
       <%= exports.style %>: { minified: true }<% } %><% if (exports.script) { %>
   js:
     <%= exports.script %>: { attributes: { type: module } }<% } %>

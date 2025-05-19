@@ -292,9 +292,9 @@ export default class GeneratorSDC extends Generator {
       ...(this.answers.style && {
       style: this.answers.style === 'css'
         ? `${tag}.${this.answers.style}`
-        : `dist/${tag}.css`
+        : `../../dist/${tag}.css`
       }),
-      ...(this.answers.js && { script: `dist/${tag}.js` })
+      ...(this.answers.js && { script: `../../dist/${tag}.js` })
     }
 
     const props = {
