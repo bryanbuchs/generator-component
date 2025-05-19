@@ -8,14 +8,14 @@ status: experimental
 
 props:
   type: object
-  properties:<% fields.forEach(field => { %>
+  properties:<% if (fields.length === 0) { %> {}<% } else { %><% fields.forEach(field => { %>
     <%= field.name %>:
       type: <%= field.type %><% if (field.type === 'array') { %>
       items:
-        type: string<% } %><% }) %><% if (required.length) { %>
+        type: string<% } %><% }) %><% } %><% if (required.length) { %>
   required:<% required.forEach(field => { %>
-    - <%= field %><% }) %><% } %>
-<% if (slots.length) { %>
+    - <%= field %><% }) %><% } %><% if (slots.length) { %>
+
 slots:<% slots.forEach(slot => { %>
   <%= slot.name %>: { }<% }) %><% } %>
 <% if (exports.style || exports.script) { %>
@@ -28,5 +28,5 @@ libraryOverrides:<% if (exports.style) { %>
   dependencies:
     <% if (!exports.script) { %># <% } %>- core/drupal
     <% if (!exports.script) { %># <% } %>- core/once
-    # use a library from another component
-    # - core/components.THEME--COMPONENT<% } %>
+    # - <%= project %>/LIBRARY
+    # - core/components.<%= project %>--ANOTHER_COMPONENT<% } %>
