@@ -3,6 +3,9 @@ $schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schema
 name: <%= label %>
 group: <%= group %>
 
+# Docs:
+# www.drupal.org/docs/develop/theming-drupal/using-single-directory-components/annotated-example-componentyml
+
 # Status can be: "experimental", "stable", "deprecated", "obsolete".
 status: experimental
 

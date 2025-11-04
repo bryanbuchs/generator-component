@@ -1,7 +1,7 @@
 {
   "name": "@bryanbuchs/generator-component",
-  "version": "5.0.3",
-  "description": "A yeoman generator for Drupal SDC + Storybook",
+  "version": "6.0.0",
+  "description": "CLI tool for Drupal SDC + Storybook components",
   "type": "module",
   "author": {
     "name": "bryanbuchs",
@@ -12,19 +12,24 @@
     "url": "git+https://github.com/bryanbuchs/generator-component.git"
   },
   "files": [
-    "generators"
+    "lib",
+    "bin",
+    "templates"
   ],
-  "main": "generators/index.js",
+  "bin": {
+    "generator-component": "bin/cli.js"
+  },
+  "main": "lib/index.js",
   "keywords": [
-    "yeoman-generator",
     "storybook",
     "drupal",
-    "twig"
+    "twig",
+    "sdc",
+    "component-generator"
   ],
   "dependencies": {
+    "ejs": "^3.1.10",
     "enquirer": "^2.4.1",
-    "inflection": "^3.0.0",
-    "yeoman-environment": "^4.4.3",
-    "yeoman-generator": "^7.5.1"
+    "inflection": "^3.0.0"
   }
 }
