@@ -28,7 +28,7 @@
     "component-generator"
   ],
   "dependencies": {
-    "ejs": "^3.1.10",
+    "ejs": "^4.0.1",
     "enquirer": "^2.4.1",
     "inflection": "^3.0.0"
   }
