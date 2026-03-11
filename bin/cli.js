@@ -25,7 +25,38 @@
 
 import { generateComponent } from '../lib/index.js'
 
+function isPromptCancellationError (error) {
+  if (!error) return false
+
+  if (error.code === 'ERR_USE_AFTER_CLOSE') return true
+
+  const message = `${error.message || ''}`.toLowerCase()
+  return message.includes('cancelled')
+}
+
+function exitWithoutError () {
+  process.stdout.write('\n')
+  process.exit(0)
+}
+
+process.on('SIGINT', exitWithoutError)
+
+process.on('uncaughtException', error => {
+  if (isPromptCancellationError(error)) {
+    exitWithoutError()
+    return
+  }
+
+  console.error('Error:', error.message)
+  process.exit(1)
+})
+
 generateComponent().catch(error => {
+  if (isPromptCancellationError(error)) {
+    exitWithoutError()
+    return
+  }
+
   console.error('Error:', error.message)
   process.exit(1)
 })
