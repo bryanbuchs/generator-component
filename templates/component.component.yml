@@ -24,10 +24,10 @@ slots:<% slots.forEach(slot => { %>
 <% if (exports.style || exports.script) { %>
 libraryOverrides:<% if (exports.style) { %>
   css:
-    component:
+    theme:
       <%= exports.style %>: { minified: true }<% } %><% if (exports.script) { %>
   js:
-    <%= exports.script %>: { attributes: { type: module } }<% } %>
+    <%= exports.script %>: <% if (jsMode === 'vite') { %>{ attributes: { type: module } }<% } else { %>{}<% } %><% } %>
   dependencies:
     <% if (!exports.script) { %># <% } %>- core/drupal
     <% if (!exports.script) { %># <% } %>- core/once
