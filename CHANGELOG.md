@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.1] - 2026-03-20
+
+### Added
+
+- JavaScript format prompt with Vite and Vanilla modes
+  - Vite: behavior.js bundled via library.js, component.yml references dist output
+  - Vanilla: behavior.js referenced directly in component.yml without build processing
+- GitHub Copilot instructions file
+
+### Changed
+
+- Stylesheet prompt defaults to CSS (reordered choices)
+- Simplified Twig template class output to plain `class` attribute
+- Fixed CSS library override path from `component` to `theme`
+
+### Dependencies
+
+- Bumped `ejs` from 3.1.10 to 5.0.1
+
+### Fixed
+
+- Handle prompt cancellation without stack trace
+
 ## [6.0.0] - 2025-11-04
 
 ### 🎉 Major Release: Complete Refactoring from Yeoman to Standalone CLI
