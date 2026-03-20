@@ -1,12 +1,4 @@
-{%
-  set cssClasses = [
-<% cssClasses.forEach(str => { -%>
-    '<%= str _%>',
-<% }) -%>
-  ]
-%}
-
-<div{{ attributes.setAttribute('class', cssClasses) }}>
+<div class="<%= cssClasses.join(' ') %>">
 
 <% fields.forEach(field => { -%>
 <% if (field.type == "array") { -%>
