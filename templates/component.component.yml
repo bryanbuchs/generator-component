@@ -25,9 +25,9 @@ slots:<% slots.forEach(slot => { %>
 libraryOverrides:<% if (exports.style) { %>
   css:
     theme:
-      <%= exports.style %>: { minified: true }<% } %><% if (exports.script) { %>
+      <%= exports.style %>: <% if (compiled.css) { %>{ minified: true }<% } else { %>{}<% } %><% } %><% if (exports.script) { %>
   js:
-    <%= exports.script %>: <% if (jsMode === 'vite') { %>{ attributes: { type: module } }<% } else { %>{}<% } %><% } %>
+    <%= exports.script %>: <% if (compiled.js) { %>{ attributes: { type: module } }<% } else { %>{}<% } %><% } %>
   dependencies:
     <% if (!exports.script) { %># <% } %>- core/drupal
     <% if (!exports.script) { %># <% } %>- core/once

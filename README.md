@@ -6,7 +6,7 @@ Generates Drupal Single Directory Component (SDC) boilerplate with integrated St
 
 - 🎯 **Interactive Prompts** - Guided component generation without CLI arguments
 - 📦 **Complete Scaffolding** - Creates all necessary SDC and Storybook files
-- 🎨 **Flexible Styling** - Choose between LESS, CSS, or no stylesheet
+- 🎨 **Flexible Styling** - Plain CSS or no stylesheet, with optional Vite/PostCSS compilation
 - 🧩 **Smart Field Types** - String, boolean, number, object, array, and slot support
 - ⚡ **Zero Yeoman Overhead** - Lightweight, fast, and simple
 - 📚 **Storybook Ready** - Generated stories include field documentation and examples
@@ -113,20 +113,28 @@ Field: content (slot - not required)
 
 Leave field name blank to finish adding fields.
 
-### 5. Behavior.js File
+### 5. Styles
 
-Include JavaScript for component interactions/initialization. Generates:
+Choose whether to include a stylesheet:
 
-- `{tag}.behavior.js` - JavaScript source
-- Entry in `{tag}.library.js` for Drupal
-
-### 6. Style Format
-
-Choose stylesheet format or skip:
-
-- **LESS** - LESS preprocessor (compiles to CSS)
-- **CSS** - Plain CSS
+- **CSS** - Plain CSS file (`{tag}.css`)
 - **-none-** - No stylesheet (framework-provided styles)
+
+### 6. Scripts
+
+Choose whether to include a JavaScript behavior:
+
+- **JS** - JavaScript source (`{tag}.behavior.js`)
+- **-none-** - No JavaScript
+
+### 7. Compile
+
+Multi-select determining which assets are processed by Vite/PostCSS into `dist/`:
+
+- **styles** - CSS is bundled/processed; the Drupal library references `../../dist/{tag}.css`
+- **scripts** - JS is bundled by Vite; the Drupal library references `../../dist/{tag}.js` with `type: module`
+
+When at least one asset is compiled, a `{tag}.library.js` file is generated as the Vite entry point. Uncompiled assets are referenced directly from source.
 
 ## Generated Files
 
@@ -137,8 +145,8 @@ components/{component-tag}/
 ├── {tag}.component.yml       # Drupal SDC metadata (required)
 ├── {tag}.twig               # Component template
 ├── {tag}.stories.js         # Storybook configuration
-├── {tag}.library.js         # Drupal library registry (if CSS/JS)
-├── {tag}.less or .css       # Stylesheet (optional)
+├── {tag}.library.js         # Vite entry point (only if any asset is compiled)
+├── {tag}.css                # Stylesheet (optional)
 └── {tag}.behavior.js        # JavaScript behavior (optional)
 ```
 
@@ -173,19 +181,19 @@ Storybook configuration:
 
 #### .library.js
 
-Drupal library declaration:
+Vite entry point:
 
-- Registers CSS and JS for inclusion
-- Proper asset paths for dist/ build output
-- Required when styles or behavior.js are included
+- Imports the source files for any assets marked as compiled
+- Vite bundles its imports into `dist/{tag}.js` (and processes CSS into `dist/{tag}.css`)
+- Only generated when at least one asset is compiled
 
-#### .less / .css
+#### .css
 
 Style file (optional):
 
 - Placeholder for component-specific styles
 - Uses BEM naming convention based on component tag
-- Ready for preprocessing (LESS) or direct usage (CSS)
+- Modern CSS, processed through PostCSS when compilation is enabled
 
 #### .behavior.js
 
@@ -265,8 +273,8 @@ All generated files use standard Drupal/Twig/Storybook conventions and are fully
 - **component.yml** - Adjust schema, add schema validation
 - **.twig** - Refine markup, add filters, update structure
 - **.stories.js** - Add story variations, update documentation
-- **.library.js** - Add build assets, CSS preprocessing
-- **.less/.css** - Add component-specific styles
+- **.library.js** - Add build assets, additional Vite imports
+- **.css** - Add component-specific styles
 - **.behavior.js** - Add component interactivity
 
 ## Integration with Drupal
@@ -276,7 +284,7 @@ All generated files use standard Drupal/Twig/Storybook conventions and are fully
 1. Ensure your theme has `components` directory at root
 2. Run `generator-component` to create component
 3. Add to your theme's `package.json` build process:
-   - Compile LESS/CSS if needed
+   - Run Vite/PostCSS to build compiled assets into `dist/`
    - Build JS for distribution
 
 ### Using Components in Twig

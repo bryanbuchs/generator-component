@@ -4,7 +4,9 @@
  */
 
 import Template from './<%= tag _%>.twig'
-import './<%= tag _%>.library.js'
+<% storyImports.forEach(filename => { -%>
+import './<%= filename %>'
+<% }) -%>
 
 // import another component to use as a child
 // import { ComponentName } from '../component-name/component-name.stories.js'

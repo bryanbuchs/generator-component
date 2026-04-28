@@ -28,8 +28,8 @@
     "component-generator"
   ],
   "dependencies": {
-    "ejs": "^5.0.1",
-    "enquirer": "^2.4.1",
+    "@inquirer/prompts": "^8.4.2",
+    "ejs": "^5.0.2",
     "inflection": "^3.0.0"
   }
 }

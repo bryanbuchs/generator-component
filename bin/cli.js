@@ -17,8 +17,9 @@
  * The generator will guide you through creating a component with:
  * - Component name and Storybook group
  * - Field definitions (types, required flags)
- * - Style format selection (LESS, CSS, or none)
+ * - Style format selection (CSS or none)
  * - Optional behavior.js inclusion
+ * - Per-asset compile selection (Vite/PostCSS)
  * 
  * All generated files go to: ./components/{component-tag}/
  */
@@ -29,6 +30,7 @@ function isPromptCancellationError (error) {
   if (!error) return false
 
   if (error.code === 'ERR_USE_AFTER_CLOSE') return true
+  if (error.name === 'ExitPromptError') return true
 
   const message = `${error.message || ''}`.toLowerCase()
   return message.includes('cancelled')
